@@ -1,7 +1,7 @@
 ﻿using System;
 using OpenTK;
 
-namespace open
+namespace Cgame
 {
     public class Camera
     {

@@ -7,33 +7,35 @@ using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL4;
 
-namespace open
+namespace Cgame
 {
     class TextureLibrary
     {
-        private Dictionary<string, int> descriptors = new Dictionary<string, int>();
-        private Shader shader;
+        private readonly Dictionary<string, int> descriptors = new Dictionary<string, int>();
+        private readonly Shader shader;
+        public int IndicesLength => indices.Length;
 
         private readonly float[] vertices =
         {
-             0.5f,  0.5f, 0.0f, 1.0f, 1.0f, // top right
-             0.5f, -0.5f, 0.0f, 1.0f, 0.0f, // bottom right
-            -0.5f, -0.5f, 0.0f, 0.0f, 0.0f, // bottom left
-            -0.5f,  0.5f, 0.0f, 0.0f, 1.0f  // top left
+             0.5f,  0.5f, 0.0f, 1.0f, 1.0f,
+             0.5f, -0.5f, 0.0f, 1.0f, 0.0f,
+            -0.5f, -0.5f, 0.0f, 0.0f, 0.0f,
+            -0.5f,  0.5f, 0.0f, 0.0f, 1.0f
         };
 
         private readonly uint[] indices =
         {
-            0, 1, 3, // The first triangle will be the bottom-right half of the triangle
-            1, 2, 3  // Then the second will be the top-right half of the triangle
+            0, 1, 3,
+            1, 2, 3
         };
 
         public TextureLibrary(Shader shader)
         {
             this.shader = shader;
+            AddTexture("base", "textures/image.bmp");
         }
 
-        public void AddTexture(string path, string name)
+        public void AddTexture(string name, string path)
         {
             var localVertices = new float[vertices.Length];
             vertices.CopyTo(localVertices, 0);
@@ -83,7 +85,7 @@ namespace open
 
         public int Get(string name)
         {
-            return descriptors[name];
+            return descriptors.ContainsKey(name) ? descriptors[name] : descriptors["base"];
         }
     }
 }

@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using PixelFormat = OpenTK.Graphics.OpenGL4.PixelFormat;
 
-namespace open
+namespace Cgame
 {
     class Texture
     {
