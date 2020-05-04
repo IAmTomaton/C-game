@@ -4,18 +4,17 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Cgame.Objects
 {
     class TestGameObject : GameObject
     {
-        public TestGameObject(string texture)
+        public TestGameObject() : base()
         {
-            Sprite = new Sprite(this, texture);
+            Sprite = new Sprite(this, "base");
+            Collider = new Collider(this, 64, 64);
+            Mass = 1;
         }
-
-        public TestGameObject() { }
 
         public override void Start(IUpdateContext updateContext)
         {
@@ -24,9 +23,6 @@ namespace Cgame.Objects
 
         public override void Update(IUpdateContext updateContext)
         {
-            Angle += 100 * updateContext.DelayTime;
-            Position = new Vector3(40, 0, 0) * Matrix3.CreateRotationZ((float)MathHelper.DegreesToRadians(Angle));
-
             base.Update(updateContext);
         }
     }

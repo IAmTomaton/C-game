@@ -1,11 +1,6 @@
 ﻿using OpenTK.Graphics.OpenGL4;
-using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using PixelFormat = OpenTK.Graphics.OpenGL4.PixelFormat;
 
 namespace Cgame
@@ -51,12 +46,12 @@ namespace Cgame
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT,
                 (int)TextureWrapMode.Repeat);
 
-            GL.GenerateMipmap(GenerateMipmapTarget.Texture2D);
+            GL.BindTexture(TextureTarget.Texture2D, 0);
         }
 
         public void Use()
         {
-            GL.BindTexture(TextureTarget.ProxyTexture2D, Handle);
+            GL.BindTexture(TextureTarget.Texture2D, Handle);
         }
     }
 }

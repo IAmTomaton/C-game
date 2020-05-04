@@ -88,10 +88,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Camera.cs" />
+    <Compile Include="colliders\Collider.cs" />
+    <Compile Include="Collision.cs" />
     <Compile Include="contexts\IUpdateContext.cs" />
     <Compile Include="Game.cs" />
-    <Compile Include="GameObject.cs" />
-    <Compile Include="contexts\IInitContext.cs" />
+    <Compile Include="objects\GameObject.cs" />
+    <Compile Include="objects\TestGameObjectWhithCamera.cs" />
+    <Compile Include="Primitive.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Shader.cs" />
@@ -100,6 +103,7 @@
     <Compile Include="Sprite.cs" />
     <Compile Include="Texture.cs" />
     <Compile Include="TextureLibrary.cs" />
+    <Compile Include="TextureLidraryLoader.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -113,7 +117,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="textures\image.bmp">
+    <Content Include="textures\base.bmp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="textures\none.bmp">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

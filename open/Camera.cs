@@ -3,96 +3,102 @@ using OpenTK;
 
 namespace Cgame
 {
-    public class Camera
+    class Camera
     {
-        private Vector3 _front = -Vector3.UnitZ;
+        public GameObject GameObject { get; set; }
 
-        private Vector3 _up = Vector3.UnitY;
+        private Vector3 front = -Vector3.UnitZ;
+        private Vector3 up = Vector3.UnitY;
+        private Vector3 right = Vector3.UnitX;
+        private float pitch;
+        private float yaw = -MathHelper.PiOver2;
+        private float fov = MathHelper.PiOver2;
 
-        private Vector3 _right = Vector3.UnitX;
-
-        private float _pitch;
-
-        private float _yaw = -MathHelper.PiOver2;
-
-        private float _fov = MathHelper.PiOver2;
-
-        public Camera(Vector3 position)
+        public Camera(Vector3 position, int width, int height)
         {
             Position = position;
+            Width = width;
+            Height = height;
+            WidthScale = 2 / (float)Width;
         }
 
-        //public Camera(Vector3 position, float aspectRatio)
-        //{
-        //    Position = position;
-        //    AspectRatio = aspectRatio;
-        //}
+        public Vector3 Position
+        {
+            get
+            {
+                return GameObject is null ? position : new Vector3(GameObject.Position.Xy) + position;
+            }
+            set
+            {
+                position = value;
+            }
+        }
 
-        public Vector3 Position { get; set; }
+        private Vector3 position;
 
-        //public float AspectRatio { private get; set; }
-
-        public int Weidth { get; set; }
+        public int Width { get; set; }
         public int Height { get; set; }
+        public float WidthScale { get; }
 
-        public Vector3 Front => _front;
+        public float AspectRatio => Width / (float)Height;
 
-        public Vector3 Up => _up;
+        public Vector3 Front => front;
 
-        public Vector3 Right => _right;
+        public Vector3 Up => up;
+
+        public Vector3 Right => right;
 
         public float Pitch
         {
-            get => MathHelper.RadiansToDegrees(_pitch);
+            get => MathHelper.RadiansToDegrees(pitch);
             set
             {
                 var angle = MathHelper.Clamp(value, -89f, 89f);
-                _pitch = MathHelper.DegreesToRadians(angle);
+                pitch = MathHelper.DegreesToRadians(angle);
                 UpdateVectors();
             }
         }
 
         public float Yaw
         {
-            get => MathHelper.RadiansToDegrees(_yaw);
+            get => MathHelper.RadiansToDegrees(yaw);
             set
             {
-                _yaw = MathHelper.DegreesToRadians(value);
+                yaw = MathHelper.DegreesToRadians(value);
                 UpdateVectors();
             }
         }
 
         public float Fov
         {
-            get => MathHelper.RadiansToDegrees(_fov);
+            get => MathHelper.RadiansToDegrees(fov);
             set
             {
                 var angle = MathHelper.Clamp(value, 1f, 45f);
-                _fov = MathHelper.DegreesToRadians(angle);
+                fov = MathHelper.DegreesToRadians(angle);
             }
         }
 
         public Matrix4 GetViewMatrix()
         {
-            return Matrix4.LookAt(Position, Position + _front, _up);
+            return Matrix4.LookAt(Position, Position + front, up);
         }
 
         public Matrix4 GetProjectionMatrix()
         {
-            return Matrix4.CreateOrthographic(Weidth, Height, 0.01f, 100);
-            //return Matrix4.CreatePerspectiveFieldOfView(_fov, AspectRatio, 0.01f, 100f); ;
+            return Matrix4.CreateScale(WidthScale) * Matrix4.CreatePerspectiveFieldOfView(fov, AspectRatio, 0.01f, 100f);
         }
 
         private void UpdateVectors()
         {
-            _front.X = (float)Math.Cos(_pitch) * (float)Math.Cos(_yaw);
-            _front.Y = (float)Math.Sin(_pitch);
-            _front.Z = (float)Math.Cos(_pitch) * (float)Math.Sin(_yaw);
+            front.X = (float)Math.Cos(pitch) * (float)Math.Cos(yaw);
+            front.Y = (float)Math.Sin(pitch);
+            front.Z = (float)Math.Cos(pitch) * (float)Math.Sin(yaw);
 
-            _front = Vector3.Normalize(_front);
+            front = Vector3.Normalize(front);
 
-            _right = Vector3.Normalize(Vector3.Cross(_front, Vector3.UnitY));
-            _up = Vector3.Normalize(Vector3.Cross(_right, _front));
+            right = Vector3.Normalize(Vector3.Cross(front, Vector3.UnitY));
+            up = Vector3.Normalize(Vector3.Cross(right, front));
         }
     }
 }

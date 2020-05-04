@@ -1,4 +1,5 @@
-﻿using System;
+﻿using OpenTK.Input;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,9 +10,16 @@ namespace Cgame.Contexts
     interface IUpdateContext
     {
         void AddObject(GameObject gameObject);
-        IEnumerable<T> FindObject<T>()
-            where T : GameObject;
+        void AddGlobalObject(GameObject gameObject);
+        IEnumerable<T> FindObject<T>() where T : GameObject;
+        IEnumerable<T> FindGlobalObject<T>() where T : GameObject;
         void DeleteObject(GameObject gameObject);
-        double DelayTime { get; }
+        void DeleteGlobalObject(GameObject gameObject);
+        bool ObjectExistence(GameObject gameObject);
+        bool GlobalObjectExistence(GameObject gameObject);
+        void BindGameObjectToCamera(GameObject gameObject);
+        float DelayTime { get; }
+        KeyboardState Keyboard { get; }
+        MouseState Mouse { get; }
     }
 }
