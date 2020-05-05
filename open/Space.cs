@@ -5,9 +5,6 @@ using OpenTK.Input;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Cgame
 {
@@ -37,27 +34,35 @@ namespace Cgame
         public Space(Camera camera)
         {
             Camera = camera;
-            for (var i = 0; i < 300; i++)
+            for (var i = 0; i < 150; i++)
             {
-                var test2 = new TestGameObject
+                var test = new TestGameObject
                 {
                     Position = new Vector3(i * 128, -128, 0)
                 };
-                AddLocalObject(test2);
+                AddLocalObject(test);
             }
-            for (var i = 0; i < 1800; i++)
+            for (var i = 0; i < 150; i++)
             {
-                var test2 = new TestGameObjectWithoutCollider
+                var test = new TestGameObjectWithoutCollider
                 {
                     Position = new Vector3(i * 128, 128, 0)
                 };
-                AddLocalObject(test2);
+                AddLocalObject(test);
             }
-            var test = new TestGameObjectWhithCamera
+            for (var i = 0; i < 150; i++)
+            {
+                var test = new TestGameObjectWithoutMass
+                {
+                    Position = new Vector3(i * 128, 512, 0)
+                };
+                AddLocalObject(test);
+            }
+            var testMain = new TestGameObjectWithCamera
             {
                 Position = new Vector3(0, 0, 0)
             };
-            AddLocalObject(test);
+            AddLocalObject(testMain);
         }
 
         public void BindGameObjectToCamera(GameObject gameObject)
@@ -72,7 +77,7 @@ namespace Cgame
             Mouse = mouseState;
             MoveGameObjects();
             UpdateGameObjects();
-            IntersectionCheck();
+            CollisionCheck();
         }
 
         private void MoveGameObjects()
@@ -92,27 +97,32 @@ namespace Cgame
                 gameObject.Update(this);
         }
 
-        private void IntersectionCheck()
+        private void CollisionCheck()
         {
             var objects = CollidingObjects.ToList();
             for (var i = 0; i < objects.Count; i++)
                 for (var j = i + 1; j < objects.Count; j++)
                 {
+                    if (!LayerSettings.CheckCollision(objects[i].Layer, objects[j].Layer))
+                        continue;
                     if (objects[i].Collider is null || objects[j].Collider is null)
                         continue;
                     var collision = new Collision(objects[i].Collider, objects[j].Collider);
                     if (!collision.Collide)
                         continue;
                     var massSum = objects[i].Mass + objects[j].Mass;
-                    var delta = objects[i].Mass == 0 ? Vector2.Zero : collision.Mtv * (objects[i].Mass / massSum) * collision.MtvLength;
-                    objects[i].Position += new Vector3(delta);
-                    delta = objects[j].Mass == 0 ? Vector2.Zero : collision.Mtv * (objects[j].Mass / massSum) * collision.MtvLength;
-                    objects[j].Position -= new Vector3(delta);
-                    objects[i].Collision(this, objects[j]);
-                    objects[j].Collision(this, objects[i]);
+                    DisplacementObjectAfterCollision(objects[i], massSum, collision, 1);
+                    DisplacementObjectAfterCollision(objects[j], massSum, collision, -1);
                 }
         }
-        
+
+        private void DisplacementObjectAfterCollision(GameObject gameObject, float massSum, Collision collision, int revers)
+        {
+            var delta = gameObject.Mass == 0 ? Vector2.Zero : collision.Mtv * (gameObject.Mass / massSum) * collision.MtvLength;
+            gameObject.Position += new Vector3(delta) * revers;
+            gameObject.Collision(this, gameObject);
+        }
+
         public IEnumerable<Sprite> GetSprites()
         {
             return AllObgects

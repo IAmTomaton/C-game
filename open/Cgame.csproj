@@ -92,10 +92,12 @@
     <Compile Include="Collision.cs" />
     <Compile Include="contexts\IUpdateContext.cs" />
     <Compile Include="Game.cs" />
-    <Compile Include="Layer.cs" />
+    <Compile Include="Layers.cs" />
+    <Compile Include="LayerSettings.cs" />
     <Compile Include="objects\GameObject.cs" />
-    <Compile Include="objects\TestGameObjectNonColliding.cs" />
-    <Compile Include="objects\TestGameObjectWhithCamera.cs" />
+    <Compile Include="objects\TestGameObjectWithoutMass.cs" />
+    <Compile Include="objects\TestGameObjectWithoutCollider.cs" />
+    <Compile Include="objects\TestGameObjectWithCamera.cs" />
     <Compile Include="Primitive.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

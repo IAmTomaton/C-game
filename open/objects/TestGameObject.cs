@@ -17,6 +17,7 @@ namespace Cgame.Objects
         {
             Sprite = new Sprite(this, "base");
             Collider = new Collider(this, 64, 64);
+            Layer = Layers.Object;
             Mass = 1;
         }
 
@@ -28,7 +29,7 @@ namespace Cgame.Objects
 
         public override void Collision(IUpdateContext updateContext, GameObject other)
         {
-            if (timer <= 0 && other is TestGameObjectWhithCamera)
+            if (timer <= 0 && other is TestGameObjectWithCamera)
             {
                 if (c)
                     Console.WriteLine("АТАШЁЛ!!!!");

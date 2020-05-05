@@ -1,19 +1,17 @@
 ﻿using Cgame.Contexts;
 using OpenTK;
 using OpenTK.Input;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Cgame.Objects
 {
-    class TestGameObjectWhithCamera : GameObject
+    class TestGameObjectWithCamera : GameObject
     {
-        public TestGameObjectWhithCamera() : base()
+        public TestGameObjectWithCamera() : base()
         {
             Sprite = new Sprite(this, "none");
             Collider = new Collider(this, 128, 128);
+            Layer = Layers.Player;
+            Mass = 1;
         }
 
         public override void Start(IUpdateContext updateContext)

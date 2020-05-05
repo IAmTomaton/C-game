@@ -12,7 +12,7 @@ namespace Cgame
     {
         public Sprite Sprite { get; protected set; }
         public float Mass { get; protected set; }
-        public Layer Layer { get; protected set; } = Layer.Base;
+        public Layers Layer { get; protected set; } = Layers.Base;
         public Collider Collider { get; protected set; }
         public Vector3 Position { get; set; }
         public Vector2 Velocity { get; set; }
