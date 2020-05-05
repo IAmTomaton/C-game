@@ -106,23 +106,6 @@ namespace Cgame
               : firstProjection.Y - secondProjection.X;
         }
 
-        private Vector2 SetNormal(List<Vector2> firstVertices, List<Vector2> secondVertices, int num)
-        {
-            if (num < firstVertices.Count)
-                return SetNormal(firstVertices, num);
-            return SetNormal(secondVertices, num - firstVertices.Count);
-        }
-
-        private Vector2 SetNormal(List<Vector2> vertices, int num)
-        {
-            Vector2 firstPoint = vertices[num];
-            Vector2 secondPoint = vertices[(num + 1) % vertices.Count];
-
-            Vector2 edge = secondPoint - firstPoint;
-
-            return edge.PerpendicularLeft.Normalized();
-        }
-
         private class CheckResult
         {
             public Vector2 Mtv { get; }

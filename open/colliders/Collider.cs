@@ -9,6 +9,7 @@ namespace Cgame
 {
     class Collider
     {
+        public bool IsColliding { get; set; } = true;
         public float Angle { get; private set; }
         public Vector2 Position => (new Vector3(position) * RotateObject + gameObject.Position).Xy;
         public float Radius { get; }

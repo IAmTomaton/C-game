@@ -9,13 +9,13 @@ namespace Cgame.Contexts
 {
     interface IUpdateContext
     {
-        void AddObject(GameObject gameObject);
+        void AddLocalObject(GameObject gameObject);
         void AddGlobalObject(GameObject gameObject);
-        IEnumerable<T> FindObject<T>() where T : GameObject;
+        IEnumerable<T> FindLocalObject<T>() where T : GameObject;
         IEnumerable<T> FindGlobalObject<T>() where T : GameObject;
-        void DeleteObject(GameObject gameObject);
+        void DeleteLocalObject(GameObject gameObject);
         void DeleteGlobalObject(GameObject gameObject);
-        bool ObjectExistence(GameObject gameObject);
+        bool LocalObjectExistence(GameObject gameObject);
         bool GlobalObjectExistence(GameObject gameObject);
         void BindGameObjectToCamera(GameObject gameObject);
         float DelayTime { get; }

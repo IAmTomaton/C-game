@@ -18,26 +18,46 @@ namespace Cgame
         public MouseState Mouse { get; private set; }
         public Camera Camera { get; private set; }
 
-        private readonly List<GameObject> globalObjects = new List<GameObject>();
-        private readonly List<GameObject> localObjects = new List<GameObject>();
+        private readonly List<GameObject> globalCollidingObjects = new List<GameObject>();
+        private readonly List<GameObject> localCollidingObjects = new List<GameObject>();
+        private readonly List<GameObject> globalNonCollidingObjects = new List<GameObject>();
+        private readonly List<GameObject> localNonCollidingObjects = new List<GameObject>();
+
+        private IEnumerable<GameObject> AllObgects => globalCollidingObjects
+            .Concat(localCollidingObjects)
+            .Concat(globalNonCollidingObjects)
+            .Concat(localNonCollidingObjects);
+        private IEnumerable<GameObject> CollidingObjects => globalCollidingObjects
+            .Concat(localCollidingObjects);
+        private IEnumerable<GameObject> LocalObjects => localCollidingObjects
+            .Concat(localNonCollidingObjects);
+        private IEnumerable<GameObject> GlobalObjects => globalCollidingObjects
+            .Concat(globalNonCollidingObjects);
 
         public Space(Camera camera)
         {
             Camera = camera;
-            var r = new Random();
-            for (var i = 0; i < 310; i++)
+            for (var i = 0; i < 300; i++)
             {
                 var test2 = new TestGameObject
                 {
-                    Position = new Vector3(i * 128, 0, 0)
+                    Position = new Vector3(i * 128, -128, 0)
                 };
-                AddObject(test2);
+                AddLocalObject(test2);
+            }
+            for (var i = 0; i < 1800; i++)
+            {
+                var test2 = new TestGameObjectWithoutCollider
+                {
+                    Position = new Vector3(i * 128, 128, 0)
+                };
+                AddLocalObject(test2);
             }
             var test = new TestGameObjectWhithCamera
             {
                 Position = new Vector3(0, 0, 0)
             };
-            AddObject(test);
+            AddLocalObject(test);
         }
 
         public void BindGameObjectToCamera(GameObject gameObject)
@@ -57,7 +77,7 @@ namespace Cgame
 
         private void MoveGameObjects()
         {
-            foreach (var gameObject in globalObjects.Concat(localObjects))
+            foreach (var gameObject in AllObgects)
                 MoveGameObject(gameObject);
         }
 
@@ -68,13 +88,13 @@ namespace Cgame
 
         private void UpdateGameObjects()
         {
-            foreach (var gameObject in globalObjects.Concat(localObjects))
+            foreach (var gameObject in AllObgects)
                 gameObject.Update(this);
         }
 
         private void IntersectionCheck()
         {
-            var objects = globalObjects.Concat(localObjects).ToList();
+            var objects = CollidingObjects.ToList();
             for (var i = 0; i < objects.Count; i++)
                 for (var j = i + 1; j < objects.Count; j++)
                 {
@@ -93,67 +113,60 @@ namespace Cgame
                 }
         }
         
-
         public IEnumerable<Sprite> GetSprites()
         {
-            return globalObjects
-                .Concat(localObjects)
+            return AllObgects
                 .Select(obj => obj.Sprite)
                 .Where(sprite => !(sprite is null));
         }
 
-        public void AddObject(GameObject gameObject)
+        public void AddLocalObject(GameObject gameObject) =>
+            AddObjectTo(gameObject, localCollidingObjects, localNonCollidingObjects, "local");
+        public void AddGlobalObject(GameObject gameObject) =>
+            AddObjectTo(gameObject, globalCollidingObjects, globalNonCollidingObjects, "global");
+
+        private void AddObjectTo(GameObject gameObject, List<GameObject> colliding, List<GameObject> nonColliding, string type)
         {
-            if (ObjectExistence(gameObject))
-                throw new Exception("Object cannot be added as local. It is already global.");
+            if (LocalObjectExistence(gameObject))
+                throw new Exception($"Object cannot be added as {type}. It is already global.");
             if (GlobalObjectExistence(gameObject))
-                throw new Exception("Object cannot be added as local. It is already local.");
-            localObjects.Add(gameObject);
+                throw new Exception($"Object cannot be added as {type}. It is already local.");
+            if (gameObject.Collider is null)
+                nonColliding.Add(gameObject);
+            else
+                colliding.Add(gameObject);
             gameObject.Start(this);
         }
 
-        public void AddGlobalObject(GameObject gameObject)
+        public bool LocalObjectExistence(GameObject gameObject) => LocalObjects.Contains(gameObject);
+        public bool GlobalObjectExistence(GameObject gameObject) => GlobalObjects.Contains(gameObject);
+
+        public IEnumerable<T> FindLocalObject<T>() where T: GameObject => FindObjectIn<T>(LocalObjects);
+        public IEnumerable<T> FindGlobalObject<T>() where T : GameObject => FindObjectIn<T>(GlobalObjects);
+
+        private IEnumerable<T> FindObjectIn<T>(IEnumerable<GameObject> objects) where T : GameObject
         {
-            if (ObjectExistence(gameObject))
-                throw new Exception("Object cannot be added as global. It is already global.");
-            if (GlobalObjectExistence(gameObject))
-                throw new Exception("Object cannot be added as global. It is already local.");
-            globalObjects.Add(gameObject);
-            gameObject.Start(this);
+            return objects.Where(obj => obj is T).Select(obj => obj as T);
         }
 
-        public bool ObjectExistence(GameObject gameObject)
-        {
-            return localObjects.Contains(gameObject);
-        }
+        public void DeleteLocalObject(GameObject gameObject) =>
+            DeleteObjectFrom(gameObject, localCollidingObjects, localNonCollidingObjects, "local");
+        public void DeleteGlobalObject(GameObject gameObject) =>
+            DeleteObjectFrom(gameObject, globalCollidingObjects, globalNonCollidingObjects, "global");
 
-        public bool GlobalObjectExistence(GameObject gameObject)
+        private void DeleteObjectFrom(GameObject gameObject, List<GameObject> colliding, List<GameObject> nonColliding, string type)
         {
-            return globalObjects.Contains(gameObject);
-        }
-
-        public IEnumerable<T> FindObject<T>() where T: GameObject
-        {
-            return localObjects.Select(obj => obj as T).Where(obj => !(obj is null));
-        }
-
-        public IEnumerable<T> FindGlobalObject<T>() where T: GameObject
-        {
-            return globalObjects.Select(obj => obj as T).Where(obj => !(obj is null));
-        }
-
-        public void DeleteObject(GameObject gameObject)
-        {
-            if (!ObjectExistence(gameObject))
-                throw new Exception("This local object does not exist in space.");
-            localObjects.Remove(gameObject);
-        }
-
-        public void DeleteGlobalObject(GameObject gameObject)
-        {
-            if (!GlobalObjectExistence(gameObject))
-                throw new Exception("This global object does not exist in space.");
-            globalObjects.Remove(gameObject);
+            if (colliding.Contains(gameObject))
+            {
+                colliding.Remove(gameObject);
+                return;
+            }
+            if (nonColliding.Contains(gameObject))
+            {
+                nonColliding.Remove(gameObject);
+                return;
+            }
+            throw new Exception($"This {type} object does not exist in space.");
         }
     }
 }

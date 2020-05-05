@@ -92,7 +92,9 @@
     <Compile Include="Collision.cs" />
     <Compile Include="contexts\IUpdateContext.cs" />
     <Compile Include="Game.cs" />
+    <Compile Include="Layer.cs" />
     <Compile Include="objects\GameObject.cs" />
+    <Compile Include="objects\TestGameObjectNonColliding.cs" />
     <Compile Include="objects\TestGameObjectWhithCamera.cs" />
     <Compile Include="Primitive.cs" />
     <Compile Include="Program.cs" />

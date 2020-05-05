@@ -11,11 +11,12 @@ namespace Cgame
     abstract class GameObject
     {
         public Sprite Sprite { get; protected set; }
+        public float Mass { get; protected set; }
+        public Layer Layer { get; protected set; } = Layer.Base;
+        public Collider Collider { get; protected set; }
         public Vector3 Position { get; set; }
         public Vector2 Velocity { get; set; }
         public float Angle { get; set; }
-        public Collider Collider { get; protected set; }
-        public float Mass { get; protected set; }
 
         public GameObject() { }
 
