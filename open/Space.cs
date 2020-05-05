@@ -8,11 +8,17 @@ using System.Linq;
 
 namespace Cgame
 {
+    /// <summary>
+    /// Класс хранящий логическое представление игры и взаимодействующий с ним.
+    /// </summary>
     class Space : IUpdateContext
     {
         public float DelayTime { get; private set; }
         public KeyboardState Keyboard { get; private set; }
         public MouseState Mouse { get; private set; }
+        /// <summary>
+        /// Текущаяя камера пространства.
+        /// </summary>
         public Camera Camera { get; private set; }
 
         private readonly List<GameObject> globalCollidingObjects = new List<GameObject>();
@@ -34,6 +40,7 @@ namespace Cgame
         public Space(Camera camera)
         {
             Camera = camera;
+            // Тут создание объектов для теста.
             for (var i = 0; i < 150; i++)
             {
                 var test = new TestGameObject
@@ -70,6 +77,12 @@ namespace Cgame
             Camera.GameObject = gameObject;
         }
 
+        /// <summary>
+        /// Обновляет внутренне представление пространства.
+        /// </summary>
+        /// <param name="delayTime">Промежуток времени прошедший с последнего обновления.</param>
+        /// <param name="keyboardState"></param>
+        /// <param name="mouseState"></param>
         public void Update(float delayTime, KeyboardState keyboardState, MouseState mouseState)
         {
             DelayTime = delayTime;
@@ -80,23 +93,35 @@ namespace Cgame
             CollisionCheck();
         }
 
+        /// <summary>
+        /// Перемещает все игровые объекты в соответствии с их скоростью.
+        /// </summary>
         private void MoveGameObjects()
         {
             foreach (var gameObject in AllObgects)
                 MoveGameObject(gameObject);
         }
 
+        /// <summary>
+        /// Перемещает игровой объект в соответствии с его скоростью.
+        /// </summary>
         private void MoveGameObject(GameObject gameObject)
         {
             gameObject.Position += new Vector3(gameObject.Velocity.X * DelayTime, gameObject.Velocity.Y * DelayTime, 0);
         }
 
+        /// <summary>
+        /// Обновляет все игровые объекты.
+        /// </summary>
         private void UpdateGameObjects()
         {
             foreach (var gameObject in AllObgects)
                 gameObject.Update(this);
         }
 
+        /// <summary>
+        /// Проверяет столкновения для всех сталкиваемых игровых объектах.
+        /// </summary>
         private void CollisionCheck()
         {
             var objects = CollidingObjects.ToList();
@@ -110,37 +135,50 @@ namespace Cgame
                     var collision = new Collision(objects[i].Collider, objects[j].Collider);
                     if (!collision.Collide)
                         continue;
-                    var massSum = objects[i].Mass + objects[j].Mass;
-                    DisplacementObjectAfterCollision(objects[i], massSum, collision, 1);
-                    DisplacementObjectAfterCollision(objects[j], massSum, collision, -1);
+                    if (!objects[i].Collider.IsTrigger && !objects[j].Collider.IsTrigger)
+                    {
+                        var massSum = objects[i].Mass + objects[j].Mass;
+                        DisplacementObjectAfterCollision(objects[i], massSum, collision, 1);
+                        DisplacementObjectAfterCollision(objects[j], massSum, collision, -1);
+                    }
+                    objects[i].Collision(this, objects[j]);
+                    objects[j].Collision(this, objects[i]);
                 }
         }
 
+        /// <summary>
+        /// Перемещает столкнувшийся объект.
+        /// </summary>
+        /// <param name="gameObject"></param>
+        /// <param name="massSum"></param>
+        /// <param name="collision"></param>
+        /// <param name="revers"></param>
         private void DisplacementObjectAfterCollision(GameObject gameObject, float massSum, Collision collision, int revers)
         {
             var delta = gameObject.Mass == 0 ? Vector2.Zero : collision.Mtv * (gameObject.Mass / massSum) * collision.MtvLength;
             gameObject.Position += new Vector3(delta) * revers;
-            gameObject.Collision(this, gameObject);
         }
 
+        /// <summary>
+        /// Возвращает последовательность спрайтов для отрисовки.
+        /// </summary>
+        /// <returns></returns>
         public IEnumerable<Sprite> GetSprites()
         {
             return AllObgects
-                .Select(obj => obj.Sprite)
-                .Where(sprite => !(sprite is null));
+                .Where(obj => !(obj.Sprite is null))
+                .Select(obj => obj.Sprite);
         }
 
         public void AddLocalObject(GameObject gameObject) =>
-            AddObjectTo(gameObject, localCollidingObjects, localNonCollidingObjects, "local");
+            AddObjectTo(gameObject, localCollidingObjects, localNonCollidingObjects);
         public void AddGlobalObject(GameObject gameObject) =>
-            AddObjectTo(gameObject, globalCollidingObjects, globalNonCollidingObjects, "global");
+            AddObjectTo(gameObject, globalCollidingObjects, globalNonCollidingObjects);
 
-        private void AddObjectTo(GameObject gameObject, List<GameObject> colliding, List<GameObject> nonColliding, string type)
+        private void AddObjectTo(GameObject gameObject, List<GameObject> colliding, List<GameObject> nonColliding)
         {
-            if (LocalObjectExistence(gameObject))
-                throw new Exception($"Object cannot be added as {type}. It is already global.");
-            if (GlobalObjectExistence(gameObject))
-                throw new Exception($"Object cannot be added as {type}. It is already local.");
+            if (LocalObjectExistence(gameObject) || GlobalObjectExistence(gameObject))
+                return;
             if (gameObject.Collider is null)
                 nonColliding.Add(gameObject);
             else
@@ -160,11 +198,11 @@ namespace Cgame
         }
 
         public void DeleteLocalObject(GameObject gameObject) =>
-            DeleteObjectFrom(gameObject, localCollidingObjects, localNonCollidingObjects, "local");
+            DeleteObjectFrom(gameObject, localCollidingObjects, localNonCollidingObjects);
         public void DeleteGlobalObject(GameObject gameObject) =>
-            DeleteObjectFrom(gameObject, globalCollidingObjects, globalNonCollidingObjects, "global");
+            DeleteObjectFrom(gameObject, globalCollidingObjects, globalNonCollidingObjects);
 
-        private void DeleteObjectFrom(GameObject gameObject, List<GameObject> colliding, List<GameObject> nonColliding, string type)
+        private void DeleteObjectFrom(GameObject gameObject, List<GameObject> colliding, List<GameObject> nonColliding)
         {
             if (colliding.Contains(gameObject))
             {
@@ -176,7 +214,6 @@ namespace Cgame
                 nonColliding.Remove(gameObject);
                 return;
             }
-            throw new Exception($"This {type} object does not exist in space.");
         }
     }
 }

@@ -3,12 +3,14 @@ using OpenTK.Graphics.OpenGL4;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Cgame
 {
+    /// <summary>
+    /// Загружает и позволяет использовать шейдеры.
+    /// Сюда лучше не лезть если не работаешь с графикой.
+    /// </summary>
     class Shader : IDisposable
     {
         public int Handle { get; }

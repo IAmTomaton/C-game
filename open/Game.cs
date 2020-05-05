@@ -4,10 +4,13 @@ using OpenTK.Graphics.OpenGL4;
 using OpenTK.Input;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace Cgame
 {
+    /// <summary>
+    /// Главный класс.
+    /// Если не нужно разбираться с графикой, то сюда лучше не лезть.
+    /// </summary>
     class Game : GameWindow
     {
         private Shader shader;

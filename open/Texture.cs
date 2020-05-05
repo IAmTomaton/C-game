@@ -5,6 +5,10 @@ using PixelFormat = OpenTK.Graphics.OpenGL4.PixelFormat;
 
 namespace Cgame
 {
+    /// <summary>
+    /// Загружает и позволяет использовать текстуру.
+    /// Сюда лучше не лезть если не работаешь с графикой.
+    /// </summary>
     class Texture
     {
         public int Handle { get; }

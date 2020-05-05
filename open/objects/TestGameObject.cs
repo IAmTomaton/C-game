@@ -16,9 +16,14 @@ namespace Cgame.Objects
         public TestGameObject() : base()
         {
             Sprite = new Sprite(this, "base");
-            Collider = new Collider(this, 64, 64);
             Layer = Layers.Object;
+            Collider = new Collider(this, 64, 64);
             Mass = 1;
+        }
+
+        public override void Start(IUpdateContext updateContext)
+        {
+            base.Start(updateContext);
         }
 
         public override void Update(IUpdateContext updateContext)

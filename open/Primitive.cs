@@ -1,14 +1,17 @@
 ﻿using OpenTK.Graphics.OpenGL4;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Cgame
 {
+    /// <summary>
+    /// Класс примитива на который будет натягиваться текстура для отрисовки.
+    /// Генерируется нивый для каждой новой текстуры.
+    /// Сюда тоже лучше не лезть если не работаешь с графикой.
+    /// </summary>
     class Primitive
     {
+        /// <summary>
+        /// Дескриптор в видеопамяти.
+        /// </summary>
         public int Handle { get; }
 
         private readonly float[] vertices =
@@ -69,6 +72,9 @@ namespace Cgame
             Handle = vertexArrayObject;
         }
 
+        /// <summary>
+        /// Бинд текущего обекта массива вершин.
+        /// </summary>
         public void Use()
         {
             GL.BindVertexArray(Handle);

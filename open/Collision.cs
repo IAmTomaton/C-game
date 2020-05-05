@@ -1,16 +1,25 @@
 ﻿using OpenTK;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Cgame
 {
+    /// <summary>
+    /// Класс для проверки коллизии между объектами и хранении информации о ней.
+    /// </summary>
     class Collision
     {
+        /// <summary>
+        /// Указывает вектор нормали к какой-то грани. Вдоль этого вектора нужно перемещать объекты.
+        /// </summary>
         public Vector2 Mtv { get; }
+        /// <summary>
+        /// Указывает растояние на которое суммарно нужно раздвинуть объекты.
+        /// </summary>
         public float MtvLength { get; }
+        /// <summary>
+        /// Указывает роизошла ли коллизия.
+        /// </summary>
         public bool Collide { get; }
 
         public Collision(Collider first, Collider second)
@@ -38,7 +47,11 @@ namespace Cgame
                     (firstCollider.Position - secondCollider.Position).Normalized(),
                     firstCollider.Radius + secondCollider.Radius - Vector2.Distance(firstCollider.Position, secondCollider.Position));
             }
+            return CollisionPolygons(firstCollider, secondCollider);
+        }
 
+        private CheckResult CollisionPolygons(Collider firstCollider, Collider secondCollider)
+        {
             var mtv = default(Vector2);
             var minMTVLength = 0f;
             var first = true;
@@ -56,15 +69,14 @@ namespace Cgame
                     first = false;
                     mtv = normal.Normalized();
                     minMTVLength = GetIntersectionLength(firstProjection, secondProjection);
+                    continue;
                 }
-                else
+
+                float mtvLength = GetIntersectionLength(firstProjection, secondProjection);
+                if (Math.Abs(mtvLength) < Math.Abs(minMTVLength))
                 {
-                    float mtvLength = GetIntersectionLength(firstProjection, secondProjection);
-                    if (Math.Abs(mtvLength) < Math.Abs(minMTVLength))
-                    {
-                        mtv = normal.Normalized();
-                        minMTVLength = mtvLength;
-                    }
+                    mtv = normal.Normalized();
+                    minMTVLength = mtvLength;
                 }
             }
 
