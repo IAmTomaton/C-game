@@ -155,7 +155,10 @@ namespace Cgame
         /// <param name="revers"></param>
         private void DisplacementObjectAfterCollision(GameObject gameObject, float massSum, Collision collision, int revers)
         {
-            var delta = gameObject.Mass == 0 ? Vector2.Zero : collision.Mtv * (gameObject.Mass / massSum) * collision.MtvLength;
+            if (gameObject.Mass == 0)
+                return;
+            var ratio = massSum == gameObject.Mass ? 1 : (massSum - gameObject.Mass) / massSum;
+            var delta = collision.Mtv * ratio * collision.MtvLength;
             gameObject.Position += new Vector3(delta) * revers;
         }
 
