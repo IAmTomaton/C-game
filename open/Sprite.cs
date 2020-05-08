@@ -68,7 +68,7 @@ namespace Cgame
         /// </summary>
         public void SetIndex(int index)
         {
-            CurrentIndex = (index + Count) % Count;
+            CurrentIndex = (index + CurrentIndex) % Count;
         }
     }
 }

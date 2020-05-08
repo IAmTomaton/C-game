@@ -79,6 +79,7 @@
     <Compile Include="objects\TestGameObjectWithoutMass.cs" />
     <Compile Include="objects\TestGameObjectWithoutCollider.cs" />
     <Compile Include="objects\TestGameObjectWithCamera.cs" />
+    <Compile Include="Player.cs" />
     <Compile Include="Primitive.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -102,12 +103,14 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="textures\b.bmp" />
     <Content Include="textures\base.bmp">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="textures\none.bmp">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="textures\a.bmp" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">

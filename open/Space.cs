@@ -40,32 +40,22 @@ namespace Cgame
         public Space(Camera camera)
         {
             Camera = camera;
-            // Тут создание объектов для теста.
-            for (var i = 0; i < 150; i++)
+            var test = new TestGameObject
             {
-                var test = new TestGameObject
-                {
-                    Position = new Vector3(i * 128, -128, 0)
-                };
-                AddLocalObject(test);
-            }
-            for (var i = 0; i < 150; i++)
+                Position = new Vector3(128, -128, 0)
+            };
+            AddLocalObject(test);
+            var test1 = new TestGameObjectWithoutCollider
             {
-                var test = new TestGameObjectWithoutCollider
-                {
-                    Position = new Vector3(i * 128, 128, 0)
-                };
-                AddLocalObject(test);
-            }
-            for (var i = 0; i < 150; i++)
+                Position = new Vector3(128, 128, 0)
+            };
+            AddLocalObject(test1);
+            var test2 = new TestGameObjectWithoutMass
             {
-                var test = new TestGameObjectWithoutMass
-                {
-                    Position = new Vector3(i * 128, 512, 0)
-                };
-                AddLocalObject(test);
-            }
-            var testMain = new TestGameObjectWithCamera
+                Position = new Vector3(128, 512, 0)
+            };
+            AddLocalObject(test2);
+            var testMain = new Player
             {
                 Position = new Vector3(0, 0, 0)
             };

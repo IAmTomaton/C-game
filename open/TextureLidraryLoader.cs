@@ -19,7 +19,9 @@ namespace Cgame
         private static readonly List<Tuple<string, string>> textureTuples = new List<Tuple<string, string>>
         {
             Texture("base", "textures/base.bmp"),
-            Texture("none", "textures/none.bmp")
+            Texture("none", "textures/none.bmp"),
+            Texture("player1", @"C:\Users\pervu\source\repos\C-game\open\textures\a.bmp"),
+            Texture("player2", @"C:\Users\pervu\source\repos\C-game\open\textures\b.bmp")
         };
 
         /// <summary>
