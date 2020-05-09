@@ -20,7 +20,7 @@ namespace Cgame
         private bool isJumpingUp = false;
         private bool isFallingAfterJump = false;
         //private bool isAccelerating;
-        private static float defaultSpeedX = 5;
+        private static float defaultSpeedX = 10;
 
         public Sprite Sprite { get; set; }
         public float Mass { get; set; }
@@ -130,7 +130,7 @@ namespace Cgame
                 //ShootStraight(updateContext, new Vector2(1,0));
             if (input.IsKeyDown(Key.W) && !isJumpingUp && !isFallingAfterJump)
             {
-                Velocity += 200 * up;
+                Velocity += 400 * up;
                 isJumpingUp = true;
             }
             if (isJumpingUp && Velocity.Y == 0)

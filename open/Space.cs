@@ -79,11 +79,11 @@ namespace Cgame
                 Position = new Vector3(128, 0, 0)
             };
             AddLocalObject(testMain);
-            var obstacle = new Obstacle
+            /*var obstacle = new Obstacle
             {
                 Position = new Vector3(188, -65, 0)
             };
-            AddLocalObject(obstacle);
+            AddLocalObject(obstacle);*/
             var testShoot = new TestGameObject
             {
                 Position = new Vector3(358, 0, 0)
