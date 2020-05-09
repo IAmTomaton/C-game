@@ -1,4 +1,5 @@
 ﻿using Cgame.Contexts;
+using Cgame.objects;
 using Cgame.Objects;
 using OpenTK;
 using OpenTK.Input;
@@ -21,6 +22,9 @@ namespace Cgame
         /// </summary>
         public Camera Camera { get; private set; }
 
+        public List<GameObject> objectsToDelete { get; set; }
+        public List<GameObject> objectsToAdd { get; set; }
+
         private readonly List<GameObject> globalCollidingObjects = new List<GameObject>();
         private readonly List<GameObject> localCollidingObjects = new List<GameObject>();
         private readonly List<GameObject> globalNonCollidingObjects = new List<GameObject>();
@@ -40,7 +44,17 @@ namespace Cgame
         public Space(Camera camera)
         {
             Camera = camera;
-            var test = new TestGameObject
+            objectsToDelete = new List<GameObject>();
+            objectsToAdd = new List<GameObject>();
+            /*for (int i = 128; i < 3000; i++)
+            {
+                var test = new TestGameObjectWithoutMass
+                {
+                    Position = new Vector3(i, -128, 0)
+                };
+                AddLocalObject(test);
+            }*/
+            var test = new Platform
             {
                 Position = new Vector3(128, -128, 0)
             };
@@ -50,16 +64,36 @@ namespace Cgame
                 Position = new Vector3(128, 128, 0)
             };
             AddLocalObject(test1);
-            var test2 = new TestGameObjectWithoutMass
+            /*var test2 = new TestGameObject
             {
                 Position = new Vector3(128, 512, 0)
             };
-            AddLocalObject(test2);
+            AddLocalObject(test2);*/
+            var test3 = new TestGameObjectWithoutMass
+            {
+                Position = new Vector3(512, -512, 0)
+            };
+            AddLocalObject(test3);
             var testMain = new Player
             {
-                Position = new Vector3(0, 0, 0)
+                Position = new Vector3(128, 0, 0)
             };
             AddLocalObject(testMain);
+            var obstacle = new Obstacle
+            {
+                Position = new Vector3(188, -65, 0)
+            };
+            AddLocalObject(obstacle);
+            var testShoot = new TestGameObject
+            {
+                Position = new Vector3(358, 0, 0)
+            };
+            AddLocalObject(testShoot);
+            var testShoot1 = new TestGameObject
+            {
+                Position = new Vector3(558, 200, 0)
+            };
+            AddLocalObject(testShoot1);
         }
 
         public void BindGameObjectToCamera(GameObject gameObject)
@@ -80,7 +114,27 @@ namespace Cgame
             Mouse = mouseState;
             MoveGameObjects();
             UpdateGameObjects();
+            DeleteGameObjects();
+            AddGameObjects();
             CollisionCheck();
+        }
+
+        private void AddGameObjects()
+        {
+            foreach (var toAdd in objectsToAdd)
+            {
+                AddLocalObject(toAdd);
+            }
+            objectsToAdd = new List<GameObject>();
+        }
+
+        private void DeleteGameObjects()
+        {
+            foreach (var toDelete in objectsToDelete)
+            {
+                DeleteLocalObject(toDelete);
+            }
+            objectsToDelete = new List<GameObject>();
         }
 
         /// <summary>
@@ -98,6 +152,8 @@ namespace Cgame
         private void MoveGameObject(GameObject gameObject)
         {
             gameObject.Position += new Vector3(gameObject.Velocity.X * DelayTime, gameObject.Velocity.Y * DelayTime, 0);
+            //if (gameObject is Player)
+            //    Console.WriteLine("after move " + gameObject.Position.ToString());
         }
 
         /// <summary>
@@ -150,6 +206,11 @@ namespace Cgame
             var ratio = massSum == gameObject.Mass ? 1 : (massSum - gameObject.Mass) / massSum;
             var delta = collision.Mtv * ratio * collision.MtvLength;
             gameObject.Position += new Vector3(delta) * revers;
+            /*if (gameObject is Player)
+            {
+                Console.WriteLine("ratio " + ratio.ToString()+"delta "+delta.ToString());
+                Console.WriteLine("after collision " + gameObject.Position.ToString() + "reverse" + revers.ToString());
+            }*/
         }
 
         /// <summary>
@@ -182,12 +243,14 @@ namespace Cgame
         public bool LocalObjectExistence(GameObject gameObject) => LocalObjects.Contains(gameObject);
         public bool GlobalObjectExistence(GameObject gameObject) => GlobalObjects.Contains(gameObject);
 
-        public IEnumerable<T> FindLocalObject<T>() where T: GameObject => FindObjectIn<T>(LocalObjects);
-        public IEnumerable<T> FindGlobalObject<T>() where T : GameObject => FindObjectIn<T>(GlobalObjects);
+        //where T: GameObject
+        public IEnumerable<T> FindLocalObject<T>() => FindObjectIn<T>(LocalObjects);
+        public IEnumerable<T> FindGlobalObject<T>() => FindObjectIn<T>(GlobalObjects);
 
-        private IEnumerable<T> FindObjectIn<T>(IEnumerable<GameObject> objects) where T : GameObject
+        private IEnumerable<T> FindObjectIn<T>(IEnumerable<GameObject> objects)
         {
-            return objects.Where(obj => obj is T).Select(obj => obj as T);
+            //return objects.Where(obj => obj is T).Select(obj => obj as T);
+            return objects.Cast<T>();
         }
 
         public void DeleteLocalObject(GameObject gameObject) =>

@@ -21,7 +21,10 @@ namespace Cgame
             Texture("base", "textures/base.bmp"),
             Texture("none", "textures/none.bmp"),
             Texture("player1", @"C:\Users\pervu\source\repos\C-game\open\textures\a.bmp"),
-            Texture("player2", @"C:\Users\pervu\source\repos\C-game\open\textures\b.bmp")
+            Texture("player2", @"C:\Users\pervu\source\repos\C-game\open\textures\b.bmp"),
+            Texture("bullet", @"C:\Users\pervu\source\repos\C-game\open\textures\bullet.bmp"),
+            Texture("triangle", @"C:\Users\pervu\source\repos\C-game\open\textures\triangle.bmp"),
+            Texture("platform", @"C:\Users\pervu\source\repos\C-game\open\textures\platform.bmp")
         };
 
         /// <summary>

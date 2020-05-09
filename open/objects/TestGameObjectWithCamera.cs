@@ -6,6 +6,14 @@ namespace Cgame.Objects
 {
     class TestGameObjectWithCamera : GameObject
     {
+        public Sprite Sprite { get; set; }
+        public float Mass { get; set; }
+        public Layers Layer { get; set; }
+        public Collider Collider { get; set; }
+        public Vector3 Position { get; set; }
+        public Vector2 Velocity { get; set; }
+        public float Angle { get; set; }
+
         public TestGameObjectWithCamera() : base()
         {
             Sprite = new Sprite(this, "none");
@@ -14,13 +22,13 @@ namespace Cgame.Objects
             Mass = 1;
         }
 
-        public override void Start(IUpdateContext updateContext)
+        public void Start(IUpdateContext updateContext)
         {
             updateContext.BindGameObjectToCamera(this);
-            base.Start(updateContext);
+            //base.Start(updateContext);
         }
 
-        public override void Update(IUpdateContext updateContext)
+        public void Update(IUpdateContext updateContext)
         {
             var up = Vector3.UnitY;
             var right = Vector3.UnitX;
@@ -44,7 +52,12 @@ namespace Cgame.Objects
                 Position += right * cameraSpeed * updateContext.DelayTime;
             }
 
-            base.Update(updateContext);
+            //base.Update(updateContext);
+        }
+
+        public void Collision(IUpdateContext updateContext, GameObject other)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

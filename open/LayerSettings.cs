@@ -26,6 +26,7 @@ namespace Cgame
             AddCollisionRule(Layers.Player, Layers.Platform);
             AddCollisionRule(Layers.Player, Layers.Object);
             AddCollisionRule(Layers.Object, Layers.Platform);
+            //AddCollisionRule(Layers.Object, Layers.Object);
         }
 
         /// <summary>

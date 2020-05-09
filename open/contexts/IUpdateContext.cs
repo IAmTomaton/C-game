@@ -9,6 +9,8 @@ namespace Cgame.Contexts
     /// </summary>
     interface IUpdateContext
     {
+        List<GameObject> objectsToDelete { get; set; }
+        List<GameObject> objectsToAdd { get; set; }
         /// <summary>
         /// Добавляет локальный объект в пространство.
         /// Локальные объекты удаляются при переходе между сценами.
@@ -26,13 +28,13 @@ namespace Cgame.Contexts
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        IEnumerable<T> FindLocalObject<T>() where T : GameObject;
+        IEnumerable<T> FindLocalObject<T>();
         /// <summary>
         /// Возвращает все глобальные объекты указанного типа в пространстве.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        IEnumerable<T> FindGlobalObject<T>() where T : GameObject;
+        IEnumerable<T> FindGlobalObject<T>();
         /// <summary>
         /// Удфляет локальный объект из пространства.
         /// </summary>
@@ -63,8 +65,8 @@ namespace Cgame.Contexts
         /// <summary>
         /// Промежуток времени прошедший с последнего обновления.
         /// </summary>
-        float DelayTime { get; }
-        KeyboardState Keyboard { get; }
-        MouseState Mouse { get; }
+        float DelayTime { get;}
+        KeyboardState Keyboard { get;}
+        MouseState Mouse { get;}
     }
 }
