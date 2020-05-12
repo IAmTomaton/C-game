@@ -4,6 +4,7 @@ using OpenTK.Graphics.OpenGL4;
 using OpenTK.Input;
 using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
 namespace Cgame
 {

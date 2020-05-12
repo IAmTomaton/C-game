@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Cgame.Objects
 {
-    class TestGameObject : IShootable
+    class TestGameObject:GameObject
     {
         private readonly float cooldown = 1;
         private float timer;

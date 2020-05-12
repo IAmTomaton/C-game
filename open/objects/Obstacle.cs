@@ -26,6 +26,11 @@ namespace Cgame.objects
             Mass = 1;
         }
 
+        public Obstacle(Vector3 pos):this()
+        {
+            Position = pos;
+        }
+
         public void Collision(IUpdateContext updateContext, GameObject other)
         {
         }

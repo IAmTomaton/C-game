@@ -68,6 +68,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConsoleListener.cs" />
     <Compile Include="objects\Bullet.cs" />
     <Compile Include="Camera.cs" />
     <Compile Include="colliders\Collider.cs" />

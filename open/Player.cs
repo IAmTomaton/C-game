@@ -10,17 +10,35 @@ using OpenTK.Input;
 
 namespace Cgame
 {
+    enum MovementType
+    {
+        NoAcceleration,//no force
+        Continuos,//just move forward all the time
+        UserAcceleration//user makes player to move forward
+    }
+
+    enum ShootType
+    {
+        Raycast,
+        CreateBullet
+    }
+
     class Player:GameObject
     {
         private bool isAlive = true;
-        private Vector2 vert_acc = new Vector2(0, -10);//-10
+        private Vector2 vert_acc = new Vector2(0, -10);
         private Vector2 horiz_acc = new Vector2(-10, 0);
         private static Vector2 up = Vector2.UnitY;
         private static Vector2 right = Vector2.UnitX;
         private bool isJumpingUp = false;
         private bool isFallingAfterJump = false;
-        //private bool isAccelerating;
-        private static float defaultSpeedX = 10;
+        public bool isShooting = false;
+        private static float defaultSpeedX = 15;
+
+        private bool hasGravity = true;
+        private bool hasJumps = true;
+        private MovementType movementType = MovementType.Continuos;
+        private ShootType shootType=ShootType.CreateBullet;
 
         public Sprite Sprite { get; set; }
         public float Mass { get; set; }
@@ -39,7 +57,17 @@ namespace Cgame
             Velocity = new Vector2(defaultSpeedX,0);
         }
 
-        
+        public Player(Vector3 pos, bool hasGravity=true, bool hasJumps=true, 
+            MovementType movementType=MovementType.Continuos, ShootType shootType=ShootType.CreateBullet) : this()
+        {
+            Position = pos;
+            this.movementType = movementType;
+            this.hasGravity = hasGravity;
+            this.shootType = shootType;
+            if (movementType == MovementType.NoAcceleration || movementType == MovementType.UserAcceleration)
+                defaultSpeedX = 0;
+        }
+
         public void Start(IUpdateContext updateContext)
         {
             updateContext.BindGameObjectToCamera(this);
@@ -59,7 +87,7 @@ namespace Cgame
             {
                 Sprite.StepForward();
                 Collider = null;
-                Velocity =vert_acc = horiz_acc = new Vector2(0,0);
+                Velocity = vert_acc = horiz_acc = new Vector2(0,0);
             }
 
             //base.Collision(updateContext, other);
@@ -116,7 +144,8 @@ namespace Cgame
 
         public void SendBullet(IUpdateContext updateContext, Vector2 shootDirection,float range, float speed)
         {
-            updateContext.objectsToAdd.Add(new Bullet(shootDirection, this.Position,range, speed));
+            updateContext.objectsToAdd.Add(new Bullet(this, shootDirection, this.Position,range, speed));
+            isShooting = true;
         }
 
         public void Update(IUpdateContext updateContext)
@@ -125,35 +154,49 @@ namespace Cgame
             var dt = updateContext.DelayTime;
             //problems with sprite changing
             //Sprite.StepForward();
-            if (input.IsKeyDown(Key.Z))
-                SendBullet(updateContext, new Vector2(1, 0), 300, 200);
-                //ShootStraight(updateContext, new Vector2(1,0));
-            if (input.IsKeyDown(Key.W) && !isJumpingUp && !isFallingAfterJump)
+            if (input.IsKeyDown(Key.Z) && !isShooting)
             {
-                Velocity += 400 * up;
-                isJumpingUp = true;
+                switch (shootType) {
+                    case ShootType.CreateBullet:
+                        SendBullet(updateContext, new Vector2(1, 0), 300, 200);
+                        break;
+                    case ShootType.Raycast:
+                        ShootStraight(updateContext, new Vector2(1, 0));
+                        break;
+                }
             }
-            if (isJumpingUp && Velocity.Y == 0)
+            if (hasJumps)
             {
-                isJumpingUp = false;
-                isFallingAfterJump = true;
+                if (input.IsKeyDown(Key.W) && !isJumpingUp && !isFallingAfterJump)
+                {
+                    Velocity += 400 * up;
+                    isJumpingUp = true;
+                }
+                if (isJumpingUp && Velocity.Y == 0)
+                {
+                    isJumpingUp = false;
+                    isFallingAfterJump = true;
+                }
             }
             if (Velocity.Y < -100)
             {
                 Velocity = new Vector2(defaultSpeedX, -100);
             }
-            //we may let user to move on his own
-            /*if (input.IsKeyDown(Key.D))
+            if (movementType == MovementType.UserAcceleration)
             {
-                speed += 40 * right; 
+                if (input.IsKeyDown(Key.D))
+                {
+                    Velocity += 40 * right; 
+                }
+                if (Velocity.X > 0)
+                    Velocity += horiz_acc;
             }
-            if (speed.X > 0)
-                speed += horiz_acc;*/
-            Velocity += vert_acc;
+            if (hasGravity)
+                Velocity += vert_acc;
             Position += new Vector3(Velocity.X * dt, Velocity.Y * dt, 0);
-            Console.WriteLine("speed "+ Velocity.ToString());
-            Console.WriteLine("position " + Position.ToString());
-            Console.WriteLine("acc " + vert_acc.ToString());
+            //Console.WriteLine("speed "+ Velocity.ToString());
+            //Console.WriteLine("position " + Position.ToString());
+            //Console.WriteLine("acc " + vert_acc.ToString());
             //base.Update(updateContext);
         }
     }

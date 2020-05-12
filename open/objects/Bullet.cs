@@ -14,6 +14,7 @@ namespace Cgame
         private static float defaultSpeedX = 5f;
         private Vector3 startPosition;
         private float range;
+        private Player player;
 
         public Sprite Sprite { get; set; }
         public float Mass { get; set; }
@@ -23,8 +24,9 @@ namespace Cgame
         public Vector2 Velocity { get; set; }
         public float Angle { get; set; }
 
-        public Bullet(Vector2 direction, Vector3 start, float range, float speed=2f) : base()
+        public Bullet(Player player, Vector2 direction, Vector3 start, float range, float speed=2f) : base()
         {
+            this.player = player;
             this.range = range;
             Sprite = new Sprite(this, "bullet");
             Layer = Layers.Player;
@@ -44,7 +46,10 @@ namespace Cgame
         public void Update(IUpdateContext updateContext)
         {
             if ((Position - startPosition).Length >= range)
+            {
+                player.isShooting = false;
                 updateContext.objectsToDelete.Add(this);
+            }
             //base.Update(updateContext);
         }
 

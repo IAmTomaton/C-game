@@ -6,6 +6,7 @@ using OpenTK.Input;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.ExceptionServices;
 
 namespace Cgame
 {
@@ -14,6 +15,8 @@ namespace Cgame
     /// </summary>
     class Space : IUpdateContext
     {
+        private ConsoleListener consoleListener;
+
         public float DelayTime { get; private set; }
         public KeyboardState Keyboard { get; private set; }
         public MouseState Mouse { get; private set; }
@@ -44,56 +47,10 @@ namespace Cgame
         public Space(Camera camera)
         {
             Camera = camera;
+            consoleListener = new ConsoleListener();
             objectsToDelete = new List<GameObject>();
             objectsToAdd = new List<GameObject>();
-            /*for (int i = 128; i < 3000; i++)
-            {
-                var test = new TestGameObjectWithoutMass
-                {
-                    Position = new Vector3(i, -128, 0)
-                };
-                AddLocalObject(test);
-            }*/
-            var test = new Platform
-            {
-                Position = new Vector3(128, -128, 0)
-            };
-            AddLocalObject(test);
-            var test1 = new TestGameObjectWithoutCollider
-            {
-                Position = new Vector3(128, 128, 0)
-            };
-            AddLocalObject(test1);
-            /*var test2 = new TestGameObject
-            {
-                Position = new Vector3(128, 512, 0)
-            };
-            AddLocalObject(test2);*/
-            var test3 = new TestGameObjectWithoutMass
-            {
-                Position = new Vector3(512, -512, 0)
-            };
-            AddLocalObject(test3);
-            var testMain = new Player
-            {
-                Position = new Vector3(128, 0, 0)
-            };
-            AddLocalObject(testMain);
-            /*var obstacle = new Obstacle
-            {
-                Position = new Vector3(188, -65, 0)
-            };
-            AddLocalObject(obstacle);*/
-            var testShoot = new TestGameObject
-            {
-                Position = new Vector3(358, 0, 0)
-            };
-            AddLocalObject(testShoot);
-            var testShoot1 = new TestGameObject
-            {
-                Position = new Vector3(558, 200, 0)
-            };
-            AddLocalObject(testShoot1);
+            
         }
 
         public void BindGameObjectToCamera(GameObject gameObject)
@@ -163,6 +120,7 @@ namespace Cgame
         {
             foreach (var gameObject in AllObgects)
                 gameObject.Update(this);
+            consoleListener.Update(this);
         }
 
         /// <summary>

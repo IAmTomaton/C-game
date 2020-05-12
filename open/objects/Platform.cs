@@ -26,6 +26,11 @@ namespace Cgame.objects
             Mass = 0;
         }
 
+        public Platform(Vector3 pos) : this()
+        {
+            Position = pos;
+        }
+
         public void Collision(IUpdateContext updateContext, GameObject other)
         {
         }
