@@ -7,8 +7,9 @@ namespace Cgame.Contexts
     /// Коктекст обновления.
     /// Позволяет получитьь доступ к пространству из игровых объектов.
     /// </summary>
-    interface IUpdateContext
+    public interface IUpdateContext
     {
+        //IUpdateContext Copy();
         List<GameObject> objectsToDelete { get; set; }
         List<GameObject> objectsToAdd { get; set; }
         /// <summary>

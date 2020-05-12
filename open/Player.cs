@@ -68,6 +68,11 @@ namespace Cgame
                 defaultSpeedX = 0;
         }
 
+        public Player(PlayerObjectParameter parameters)
+            : this(parameters.Position, parameters.hasGravity, parameters.hasJumps,
+                  parameters.movementType, parameters.shootType)
+        {}
+
         public void Start(IUpdateContext updateContext)
         {
             updateContext.BindGameObjectToCamera(this);
@@ -177,6 +182,13 @@ namespace Cgame
                     isJumpingUp = false;
                     isFallingAfterJump = true;
                 }
+            }
+            if (movementType == MovementType.NoAcceleration)
+            {
+                if (input.IsKeyDown(Key.A))
+                    Velocity -= 200 * right;
+                if (input.IsKeyDown(Key.D))
+                    Velocity += 200 * right;
             }
             if (Velocity.Y < -100)
             {

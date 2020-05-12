@@ -1,5 +1,6 @@
 ﻿using Cgame.Contexts;
 using OpenTK;
+using System;
 
 namespace Cgame
 {
@@ -15,8 +16,9 @@ namespace Cgame
     //now we can only have one abstract class, but i'd better had several interfaces(?)
     //it's is not really important but i did
 
-    interface GameObject
+    public interface GameObject
     {
+        //GameObject Copy();
         /// <summary>
         /// Спрайт объекта.
         /// </summary>

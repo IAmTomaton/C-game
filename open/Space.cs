@@ -15,8 +15,6 @@ namespace Cgame
     /// </summary>
     class Space : IUpdateContext
     {
-        private ConsoleListener consoleListener;
-
         public float DelayTime { get; private set; }
         public KeyboardState Keyboard { get; private set; }
         public MouseState Mouse { get; private set; }
@@ -47,10 +45,9 @@ namespace Cgame
         public Space(Camera camera)
         {
             Camera = camera;
-            consoleListener = new ConsoleListener();
             objectsToDelete = new List<GameObject>();
             objectsToAdd = new List<GameObject>();
-            
+            SceneLoader.LoadNextScene(this);
         }
 
         public void BindGameObjectToCamera(GameObject gameObject)
@@ -120,7 +117,7 @@ namespace Cgame
         {
             foreach (var gameObject in AllObgects)
                 gameObject.Update(this);
-            consoleListener.Update(this);
+            ConsoleListener.Update(this);
         }
 
         /// <summary>

@@ -7,7 +7,7 @@ namespace Cgame
     /// <summary>
     /// Содержит информации для просчёта столкновений объекта.
     /// </summary>
-    class Collider
+    public class Collider
     {
         /// <summary>
         /// Указывает должел ли данный коллайдер участвовать в столкновениях.

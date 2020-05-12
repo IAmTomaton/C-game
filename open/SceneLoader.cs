@@ -1,0 +1,33 @@
+﻿using Cgame.Contexts;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Cgame
+{
+    static class SceneLoader
+    {
+        private static List<string> scenes = new List<string>
+        {
+            "scenes/scene1.txt"
+        };
+        private static int currentScene = -1;
+
+        public static void LoadNextScene(IUpdateContext uc)
+        {
+            currentScene += 1;
+            var path = scenes[currentScene % scenes.Count()];
+            using (StreamReader sr = new StreamReader(path, System.Text.Encoding.Default))
+            {
+                string line;
+                while ((line = sr.ReadLine()) != null)
+                {
+                    ConsoleListener.Process(line, uc);
+                }
+            }
+        }
+    }
+}

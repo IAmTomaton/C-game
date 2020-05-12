@@ -5,7 +5,7 @@ namespace Cgame
     /// <summary>
     /// Содержит информации для отрисовки объекта.
     /// </summary>
-    class Sprite
+    public class Sprite
     {
         /// <summary>
         /// Текущее имя текстуры в библиотеке текстур.

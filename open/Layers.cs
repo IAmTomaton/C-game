@@ -4,7 +4,7 @@
     /// Слои столкновений.
     /// Обекты сталкиваюся на основании их слоя и правил в LayerSettings.
     /// </summary>
-    enum Layers
+    public enum Layers
     {
         Base,
         Background,

@@ -31,6 +31,9 @@ namespace Cgame.objects
             Position = pos;
         }
 
+        public Obstacle(GameObjectParameter parameter) : this(parameter.Position) 
+        { }
+
         public void Collision(IUpdateContext updateContext, GameObject other)
         {
         }
