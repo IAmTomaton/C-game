@@ -40,7 +40,7 @@ namespace Cgame
             if ((Position - startPosition).Length >= range)
             {
                 player.isShooting = false;
-                GameContext.Space.objectsToDelete.Add(this);
+                GameContext.Space.DeleteLocalObject(this);
             }
             base.Update();
         }
@@ -48,7 +48,7 @@ namespace Cgame
         public override void Collision(GameObject other)
         {
             if (other is IShootable)
-                GameContext.Space.objectsToDelete.Add(other);
+                GameContext.Space.DeleteLocalObject(other);
             base.Collision(other);
         }
     }

@@ -10,8 +10,6 @@ namespace Cgame
     public interface ISpaceContext
     {
         //IUpdateContext Copy();
-        List<GameObject> objectsToDelete { get; set; }
-        List<GameObject> objectsToAdd { get; set; }
         /// <summary>
         /// Добавляет локальный объект в пространство.
         /// Локальные объекты удаляются при переходе между сценами.
@@ -19,11 +17,23 @@ namespace Cgame
         /// <param name="gameObject"></param>
         void AddLocalObject(GameObject gameObject);
         /// <summary>
+        /// Добавляет локальные объекты из последовательности в пространство.
+        /// Глобальные объекты не удаляются при переходе между сценами.
+        /// </summary>
+        /// <param name="gameObject"></param>
+        void AddLocalObjects(IEnumerable<GameObject> gameObjects);
+        /// <summary>
         /// Добавляет глобальный объект в пространство.
         /// Глобальные объекты не удаляются при переходе между сценами.
         /// </summary>
         /// <param name="gameObject"></param>
         void AddGlobalObject(GameObject gameObject);
+        /// <summary>
+        /// Добавляет глобальные объекты из последовательности в пространство.
+        /// Глобальные объекты не удаляются при переходе между сценами.
+        /// </summary>
+        /// <param name="gameObject"></param>
+        void AddGlobalObjects(IEnumerable<GameObject> gameObjects);
         /// <summary>
         /// Возвращает все локальные объекты указанного типа в пространстве.
         /// </summary>
@@ -37,15 +47,20 @@ namespace Cgame
         /// <returns></returns>
         IEnumerable<T> FindGlobalObject<T>();
         /// <summary>
-        /// Удфляет локальный объект из пространства.
+        /// Удаляет локальный объект из пространства.
         /// </summary>
         /// <param name="gameObject"></param>
         void DeleteLocalObject(GameObject gameObject);
         /// <summary>
-        /// Удфляет глобальный объект из пространства.
+        /// Удаляет глобальный объект из пространства.
         /// </summary>
         /// <param name="gameObject"></param>
         void DeleteGlobalObject(GameObject gameObject);
+        /// <summary>
+        /// Удаляет объект из пространства.
+        /// </summary>
+        /// <param name="gameObject"></param>
+        void DeleteObject(GameObject gameObject);
         /// <summary>
         /// Определяет, существует ли локальный объект в пространстве.
         /// </summary>

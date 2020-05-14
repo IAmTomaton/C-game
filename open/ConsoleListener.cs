@@ -37,23 +37,27 @@ namespace Cgame
         public static void Process(string command, ISpaceContext uc)
         {
             var commandParts = command.Split();
-            List<GameObject> listToAdd=null;
+            List<GameObject> listToAdd = null;
+            var add = false;
             GameObject newObject = null;
             switch (commandParts[0])
             {
                 case "add":
-                    listToAdd = uc.objectsToAdd;
+                    //listToAdd = uc.objectsToAdd;
+                    add = true;
                     break;
                 case "cancel":
                     var lastObj = gameObjectsStack.Pop();
-                    uc.objectsToDelete.Add(lastObj);
+                    //uc.objectsToDelete.Add(lastObj);
+                    uc.DeleteObject(lastObj);
                     break;
                 default:
                     //it is possible to throw exception here
                     Console.WriteLine("some mistake in scene command(add/delete)");
                     break;
             }
-            if (listToAdd != null)
+            //if (listToAdd != null)
+            if (add)
             {
                 try
                 {
@@ -89,7 +93,7 @@ namespace Cgame
                 {
                     Console.WriteLine("some mistake in scene command(type of object)");
                 }
-                listToAdd.Add((GameObject)newObject);
+                uc.AddLocalObject(newObject);
             }
         }
     }

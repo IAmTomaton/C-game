@@ -134,14 +134,14 @@ namespace Cgame
                 Console.WriteLine(res.ToString());
                 if (res.Length <= 300)
                 {
-                    GameContext.Space.objectsToDelete.Add(objectsToShoot.ElementAt(0));
+                    GameContext.Space.DeleteLocalObject(objectsToShoot.ElementAt(0));
                 }
             }
         }
 
         public void SendBullet(Vector2 shootDirection,float range, float speed)
         {
-            GameContext.Space.objectsToAdd.Add(new Bullet(this, shootDirection, this.Position,range, speed));
+            GameContext.Space.AddLocalObject(new Bullet(this, shootDirection, this.Position,range, speed));
             isShooting = true;
         }
 
