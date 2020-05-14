@@ -1,23 +1,10 @@
-﻿using Cgame.Contexts;
+﻿using Cgame.Interfaces;
 using OpenTK;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Cgame.objects
 {
-    class Obstacle : IKilling, IShootable
+    class Obstacle : GameObject, IKilling, IShootable
     {
-        public Sprite Sprite { get ; set ; }
-        public float Mass { get ; set ; }
-        public Layers Layer { get ; set ; }
-        public Collider Collider { get ; set ; }
-        public Vector3 Position { get ; set ; }
-        public Vector2 Velocity { get ; set ; }
-        public float Angle { get ; set ; }
-
         public Obstacle()
         {
             Sprite = new Sprite(this, "triangle");
@@ -33,17 +20,5 @@ namespace Cgame.objects
 
         public Obstacle(GameObjectParameter parameter) : this(parameter.Position) 
         { }
-
-        public void Collision(IUpdateContext updateContext, GameObject other)
-        {
-        }
-
-        public void Start(IUpdateContext updateContext)
-        {
-        }
-
-        public void Update(IUpdateContext updateContext)
-        {
-        }
     }
 }

@@ -1,5 +1,4 @@
-﻿using Cgame.Contexts;
-using Cgame.objects;
+﻿using Cgame.objects;
 using OpenTK;
 using System;
 using System.Collections.Generic;
@@ -24,7 +23,7 @@ namespace Cgame
                 { "obstacle", p=>new Obstacle(p)}
             };
 
-        public static void Update(IUpdateContext updateContext)
+        public static void Update(ISpaceContext updateContext)
         {
             while (Console.KeyAvailable)
             {
@@ -35,7 +34,7 @@ namespace Cgame
             
         }
 
-        public static void Process(string command, IUpdateContext uc)
+        public static void Process(string command, ISpaceContext uc)
         {
             var commandParts = command.Split();
             List<GameObject> listToAdd=null;

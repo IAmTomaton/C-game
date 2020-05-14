@@ -1,13 +1,13 @@
 ﻿using OpenTK.Input;
 using System.Collections.Generic;
 
-namespace Cgame.Contexts
+namespace Cgame
 {
     /// <summary>
-    /// Коктекст обновления.
+    /// Коктекст пространства.
     /// Позволяет получитьь доступ к пространству из игровых объектов.
     /// </summary>
-    public interface IUpdateContext
+    public interface ISpaceContext
     {
         //IUpdateContext Copy();
         List<GameObject> objectsToDelete { get; set; }
@@ -66,8 +66,8 @@ namespace Cgame.Contexts
         /// <summary>
         /// Промежуток времени прошедший с последнего обновления.
         /// </summary>
-        float DelayTime { get;}
-        KeyboardState Keyboard { get;}
-        MouseState Mouse { get;}
+        float DelayTime { get; }
+        KeyboardState Keyboard { get; }
+        MouseState Mouse { get; }
     }
 }

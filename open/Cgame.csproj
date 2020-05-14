@@ -69,33 +69,32 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConsoleListener.cs" />
+    <Compile Include="contexts\GameContext.cs" />
     <Compile Include="GameObjectParameter.cs" />
+    <Compile Include="Interfaces\IKilling.cs" />
+    <Compile Include="Interfaces\IShootable.cs" />
     <Compile Include="objects\Bullet.cs" />
     <Compile Include="Camera.cs" />
-    <Compile Include="colliders\Collider.cs" />
-    <Compile Include="Collision.cs" />
-    <Compile Include="contexts\IUpdateContext.cs" />
+    <Compile Include="collider\Collider.cs" />
+    <Compile Include="collider\Collision.cs" />
+    <Compile Include="contexts\ISpaceContext.cs" />
     <Compile Include="Game.cs" />
-    <Compile Include="Layers.cs" />
-    <Compile Include="LayerSettings.cs" />
+    <Compile Include="layers\Layers.cs" />
+    <Compile Include="layers\LayerSettings.cs" />
     <Compile Include="objects\GameObject.cs" />
     <Compile Include="objects\Obstacle.cs" />
     <Compile Include="objects\Platform.cs" />
-    <Compile Include="objects\TestGameObjectWithoutMass.cs" />
-    <Compile Include="objects\TestGameObjectWithoutCollider.cs" />
-    <Compile Include="objects\TestGameObjectWithCamera.cs" />
     <Compile Include="Player.cs" />
-    <Compile Include="Primitive.cs" />
+    <Compile Include="textureLib\Primitive.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SceneLoader.cs" />
-    <Compile Include="Shader.cs" />
+    <Compile Include="shaders\Shader.cs" />
     <Compile Include="Space.cs" />
-    <Compile Include="objects\TestGameObject.cs" />
-    <Compile Include="Sprite.cs" />
-    <Compile Include="Texture.cs" />
-    <Compile Include="TextureLibrary.cs" />
-    <Compile Include="TextureLidraryLoader.cs" />
+    <Compile Include="textureLib\Sprite.cs" />
+    <Compile Include="textureLib\Texture.cs" />
+    <Compile Include="textureLib\TextureLibrary.cs" />
+    <Compile Include="textureLib\TextureLidraryLoader.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

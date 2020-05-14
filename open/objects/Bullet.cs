@@ -3,26 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Cgame.Contexts;
+using Cgame.Interfaces;
 using OpenTK;
 using OpenTK.Input;
 
 namespace Cgame
 {
-    class Bullet:GameObject
+    class Bullet : GameObject
     {
         private static float defaultSpeedX = 5f;
         private Vector3 startPosition;
         private float range;
         private Player player;
-
-        public Sprite Sprite { get; set; }
-        public float Mass { get; set; }
-        public Layers Layer { get; set; }
-        public Collider Collider { get; set; }
-        public Vector3 Position { get; set; }
-        public Vector2 Velocity { get; set; }
-        public float Angle { get; set; }
 
         public Bullet(Player player, Vector2 direction, Vector3 start, float range, float speed=2f) : base()
         {
@@ -32,32 +24,32 @@ namespace Cgame
             Layer = Layers.Player;
             Collider = new Collider(this, 16, 16);
             Mass = 0.05f;
-            Position = start+new Vector3(50,0,0);
+            Position = start + new Vector3(50,0,0);
             var normalized = direction.Normalized();
             Velocity = new Vector2(normalized.X*speed, normalized.Y*speed);
         }
 
-        public void Start(IUpdateContext updateContext)
+        public override void Start()
         {
             startPosition = Position;
-            //base.Start(updateContext);
+            base.Start();
         }
 
-        public void Update(IUpdateContext updateContext)
+        public override void Update()
         {
             if ((Position - startPosition).Length >= range)
             {
                 player.isShooting = false;
-                updateContext.objectsToDelete.Add(this);
+                GameContext.Space.objectsToDelete.Add(this);
             }
-            //base.Update(updateContext);
+            base.Update();
         }
 
-        public void Collision(IUpdateContext updateContext, GameObject other)
+        public override void Collision(GameObject other)
         {
             if (other is IShootable)
-                updateContext.objectsToDelete.Add(other);
-            //base.Collision(updateContext, other);
+                GameContext.Space.objectsToDelete.Add(other);
+            base.Collision(other);
         }
     }
 }

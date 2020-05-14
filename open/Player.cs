@@ -4,7 +4,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
-using Cgame.Contexts;
+using Cgame.Interfaces;
 using OpenTK;
 using OpenTK.Input;
 
@@ -23,7 +23,7 @@ namespace Cgame
         CreateBullet
     }
 
-    class Player:GameObject
+    class Player : GameObject
     {
         private bool isAlive = true;
         private Vector2 vert_acc = new Vector2(0, -10);
@@ -39,14 +39,6 @@ namespace Cgame
         private bool hasJumps = true;
         private MovementType movementType = MovementType.Continuos;
         private ShootType shootType=ShootType.CreateBullet;
-
-        public Sprite Sprite { get; set; }
-        public float Mass { get; set; }
-        public Layers Layer { get; set; }
-        public Collider Collider { get; set; }
-        public Vector3 Position { get; set; }
-        public Vector2 Velocity { get; set; }
-        public float Angle { get; set; }
 
         public Player() : base()
         {
@@ -73,13 +65,13 @@ namespace Cgame
                   parameters.movementType, parameters.shootType)
         {}
 
-        public void Start(IUpdateContext updateContext)
+        public override void Start()
         {
-            updateContext.BindGameObjectToCamera(this);
-            //base.Start(updateContext);
+            GameContext.Space.BindGameObjectToCamera(this);
+            base.Start();
         }
 
-        public void Collision(IUpdateContext updateContext, GameObject other)
+        public override void Collision(GameObject other)
         {
             if (other.Mass == 0)
             {
@@ -95,7 +87,7 @@ namespace Cgame
                 Velocity = vert_acc = horiz_acc = new Vector2(0,0);
             }
 
-            //base.Collision(updateContext, other);
+            base.Collision(other);
         }
 
         /// <summary>
@@ -120,13 +112,13 @@ namespace Cgame
         /// <summary>
         /// Raycast way of shooting
         /// </summary>
-        public void ShootStraight(IUpdateContext updateContext, Vector2 shootDirection)
+        public void ShootStraight(Vector2 shootDirection)
         {
             //potential problems in this coordinates(is neccessary to make zero minimum)
             var start = new Vector2(this.Position.X, this.Position.Y<0?0:this.Position.Y);
-            if (updateContext.FindLocalObject<IShootable>().Count() != 0)
+            if (GameContext.Space.FindLocalObject<IShootable>().Count() != 0)
             {
-                var objectsToShoot = updateContext.FindLocalObject<IShootable>();
+                var objectsToShoot = GameContext.Space.FindLocalObject<IShootable>().Cast<GameObject>();
                 var circle = objectsToShoot.ElementAt(0).Collider;
                 var projection = GetProjection(circle.Position, start, start + shootDirection);
                 var x = projection.X;
@@ -142,31 +134,31 @@ namespace Cgame
                 Console.WriteLine(res.ToString());
                 if (res.Length <= 300)
                 {
-                    updateContext.objectsToDelete.Add(objectsToShoot.ElementAt(0));
+                    GameContext.Space.objectsToDelete.Add(objectsToShoot.ElementAt(0));
                 }
             }
         }
 
-        public void SendBullet(IUpdateContext updateContext, Vector2 shootDirection,float range, float speed)
+        public void SendBullet(Vector2 shootDirection,float range, float speed)
         {
-            updateContext.objectsToAdd.Add(new Bullet(this, shootDirection, this.Position,range, speed));
+            GameContext.Space.objectsToAdd.Add(new Bullet(this, shootDirection, this.Position,range, speed));
             isShooting = true;
         }
 
-        public void Update(IUpdateContext updateContext)
+        public override void Update()
         {
-            var input = updateContext.Keyboard;
-            var dt = updateContext.DelayTime;
+            var input = GameContext.Keyboard;
+            var dt = GameContext.DelayTime;
             //problems with sprite changing
             //Sprite.StepForward();
             if (input.IsKeyDown(Key.Z) && !isShooting)
             {
                 switch (shootType) {
                     case ShootType.CreateBullet:
-                        SendBullet(updateContext, new Vector2(1, 0), 300, 200);
+                        SendBullet(new Vector2(1, 0), 300, 200);
                         break;
                     case ShootType.Raycast:
-                        ShootStraight(updateContext, new Vector2(1, 0));
+                        ShootStraight(new Vector2(1, 0));
                         break;
                 }
             }
@@ -209,7 +201,7 @@ namespace Cgame
             //Console.WriteLine("speed "+ Velocity.ToString());
             //Console.WriteLine("position " + Position.ToString());
             //Console.WriteLine("acc " + vert_acc.ToString());
-            //base.Update(updateContext);
+            base.Update();
         }
     }
 }

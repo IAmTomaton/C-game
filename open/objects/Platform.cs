@@ -1,23 +1,9 @@
-﻿using Cgame.Contexts;
-using OpenTK;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using OpenTK;
 
 namespace Cgame.objects
 {
-    class Platform:GameObject
+    class Platform : GameObject
     {
-        public Sprite Sprite { get; set; }
-        public float Mass { get; set; }
-        public Layers Layer { get; set; }
-        public Collider Collider { get; set; }
-        public Vector3 Position { get; set; }
-        public Vector2 Velocity { get; set; }
-        public float Angle { get; set; }
-
         public Platform()
         {
             Sprite = new Sprite(this, "platform");
@@ -32,17 +18,5 @@ namespace Cgame.objects
         }
 
         public Platform(GameObjectParameter parameter) : this(parameter.Position) { }
-
-        public void Collision(IUpdateContext updateContext, GameObject other)
-        {
-        }
-
-        public void Start(IUpdateContext updateContext)
-        {
-        }
-
-        public void Update(IUpdateContext updateContext)
-        {
-        }
     }
 }

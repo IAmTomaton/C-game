@@ -1,19 +1,14 @@
-﻿using Cgame.Contexts;
-using Cgame.objects;
-using Cgame.Objects;
-using OpenTK;
+﻿using OpenTK;
 using OpenTK.Input;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.ExceptionServices;
 
 namespace Cgame
 {
     /// <summary>
     /// Класс хранящий логическое представление игры и взаимодействующий с ним.
     /// </summary>
-    class Space : IUpdateContext
+    class Space : ISpaceContext
     {
         public float DelayTime { get; private set; }
         public KeyboardState Keyboard { get; private set; }
@@ -116,7 +111,7 @@ namespace Cgame
         private void UpdateGameObjects()
         {
             foreach (var gameObject in AllObgects)
-                gameObject.Update(this);
+                gameObject.Update();
             ConsoleListener.Update(this);
         }
 
@@ -142,8 +137,8 @@ namespace Cgame
                         DisplacementObjectAfterCollision(objects[i], massSum, collision, 1);
                         DisplacementObjectAfterCollision(objects[j], massSum, collision, -1);
                     }
-                    objects[i].Collision(this, objects[j]);
-                    objects[j].Collision(this, objects[i]);
+                    objects[i].Collision(objects[j]);
+                    objects[j].Collision(objects[i]);
                 }
         }
 
@@ -192,7 +187,7 @@ namespace Cgame
                 nonColliding.Add(gameObject);
             else
                 colliding.Add(gameObject);
-            gameObject.Start(this);
+            gameObject.Start();
         }
 
         public bool LocalObjectExistence(GameObject gameObject) => LocalObjects.Contains(gameObject);
@@ -204,8 +199,8 @@ namespace Cgame
 
         private IEnumerable<T> FindObjectIn<T>(IEnumerable<GameObject> objects)
         {
-            //return objects.Where(obj => obj is T).Select(obj => obj as T);
-            return objects.Cast<T>();
+            return objects.Where(obj => obj is T).Cast<T>();
+            //return objects.Cast<T>();
         }
 
         public void DeleteLocalObject(GameObject gameObject) =>

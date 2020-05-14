@@ -1,5 +1,4 @@
-﻿using Cgame.Contexts;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -16,7 +15,7 @@ namespace Cgame
         };
         private static int currentScene = -1;
 
-        public static void LoadNextScene(IUpdateContext uc)
+        public static void LoadNextScene(ISpaceContext uc)
         {
             currentScene += 1;
             var path = scenes[currentScene % scenes.Count()];

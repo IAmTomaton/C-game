@@ -45,6 +45,7 @@ namespace Cgame
             admCamera = new Camera(Vector3.UnitZ * 500, Width, Height);
             var camera = new Camera(Vector3.UnitZ * 500, Width, Height);
             space = new Space(camera);
+            GameContext.Init(space);
 
             base.OnLoad(e);
         }
