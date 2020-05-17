@@ -84,6 +84,7 @@
     <Compile Include="objects\GameObject.cs" />
     <Compile Include="objects\Obstacle.cs" />
     <Compile Include="objects\Platform.cs" />
+    <Compile Include="objects\Test.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="textureLib\Primitive.cs" />
     <Compile Include="Program.cs" />
@@ -92,6 +93,7 @@
     <Compile Include="shaders\Shader.cs" />
     <Compile Include="Space.cs" />
     <Compile Include="textureLib\Sprite.cs" />
+    <Compile Include="objects\TestGameObjectWithCamera.cs" />
     <Compile Include="textureLib\Texture.cs" />
     <Compile Include="textureLib\TextureLibrary.cs" />
     <Compile Include="textureLib\TextureLidraryLoader.cs" />
@@ -111,17 +113,27 @@
     <Content Include="scenes\scene1.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="textures\b.bmp" />
+    <Content Include="textures\b.bmp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="textures\base.bmp">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="textures\bullet.bmp" />
+    <Content Include="textures\bullet.bmp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="textures\none.bmp">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="textures\a.bmp" />
-    <Content Include="textures\platform.bmp" />
-    <Content Include="textures\triangle.bmp" />
+    <Content Include="textures\a.bmp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="textures\platform.bmp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="textures\triangle.bmp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">

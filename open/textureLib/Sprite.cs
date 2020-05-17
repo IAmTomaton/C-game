@@ -56,19 +56,24 @@ namespace Cgame
         /// <summary>
         /// Устанавливает следующую текстуру из списка текстур как текущую.
         /// </summary>
-        public void StepForward() => SetIndex(1);
+        public void StepForward() => Step(1);
 
         /// <summary>
         /// Устанавливает предыдущую текстуру из списка текстур как текущую.
         /// </summary>
-        public void StepBack() => SetIndex(-1);
+        public void StepBack() => Step(-1);
+
+        /// <summary>
+        /// Сдвигает индекс текущей текстура на указанное число.
+        /// </summary>
+        public void Step(int count) => SetIndex(CurrentIndex + count);
 
         /// <summary>
         /// Устанавливает текстуру из списка текстур с указанным индексом как текущую.
         /// </summary>
         public void SetIndex(int index)
         {
-            CurrentIndex = (index + CurrentIndex) % Count;
+            CurrentIndex = (index % Count + Count) % Count;
         }
     }
 }
