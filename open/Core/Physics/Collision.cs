@@ -2,7 +2,7 @@
 using System;
 using System.Linq;
 
-namespace Cgame
+namespace Cgame.Core.Physics
 {
     /// <summary>
     /// Класс для проверки коллизии между объектами и хранении информации о ней.

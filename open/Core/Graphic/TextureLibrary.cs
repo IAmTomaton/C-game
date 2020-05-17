@@ -1,7 +1,6 @@
-﻿using OpenTK.Graphics.OpenGL4;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
-namespace Cgame
+namespace Cgame.Core.Graphic
 {
     /// <summary>
     /// Класс библиотеки текстур.

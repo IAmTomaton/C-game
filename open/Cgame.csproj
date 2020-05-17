@@ -69,69 +69,68 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConsoleListener.cs" />
-    <Compile Include="contexts\GameContext.cs" />
+    <Compile Include="Core\GameContext.cs" />
     <Compile Include="GameObjectParameter.cs" />
     <Compile Include="Interfaces\IKilling.cs" />
     <Compile Include="Interfaces\IShootable.cs" />
-    <Compile Include="objects\Bullet.cs" />
-    <Compile Include="Camera.cs" />
-    <Compile Include="collider\Collider.cs" />
-    <Compile Include="collider\Collision.cs" />
-    <Compile Include="contexts\ISpaceContext.cs" />
-    <Compile Include="Game.cs" />
-    <Compile Include="layers\Layers.cs" />
-    <Compile Include="layers\LayerSettings.cs" />
-    <Compile Include="objects\GameObject.cs" />
-    <Compile Include="objects\Obstacle.cs" />
-    <Compile Include="objects\Platform.cs" />
-    <Compile Include="objects\Test.cs" />
+    <Compile Include="Objects\Bullet.cs" />
+    <Compile Include="Core\Camera.cs" />
+    <Compile Include="Core\Collider.cs" />
+    <Compile Include="Core\Physics\Collision.cs" />
+    <Compile Include="Core\Interfaces\ISpaceContext.cs" />
+    <Compile Include="Core\Game.cs" />
+    <Compile Include="Core\Layers\Layers.cs" />
+    <Compile Include="Core\Layers\LayerSettings.cs" />
+    <Compile Include="Core\GameObject.cs" />
+    <Compile Include="Objects\Obstacle.cs" />
+    <Compile Include="Objects\Platform.cs" />
+    <Compile Include="Objects\Test.cs" />
     <Compile Include="Player.cs" />
-    <Compile Include="textureLib\Primitive.cs" />
+    <Compile Include="Core\Graphic\Primitive.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SceneLoader.cs" />
-    <Compile Include="shaders\Shader.cs" />
-    <Compile Include="Space.cs" />
-    <Compile Include="textureLib\Sprite.cs" />
-    <Compile Include="objects\TestGameObjectWithCamera.cs" />
-    <Compile Include="textureLib\Texture.cs" />
-    <Compile Include="textureLib\TextureLibrary.cs" />
-    <Compile Include="textureLib\TextureLidraryLoader.cs" />
+    <Compile Include="Core\Shaders\Shader.cs" />
+    <Compile Include="Core\Space.cs" />
+    <Compile Include="Core\Sprite.cs" />
+    <Compile Include="Core\Graphic\Texture.cs" />
+    <Compile Include="Core\Graphic\TextureLibrary.cs" />
+    <Compile Include="Core\Graphic\TextureLidraryLoader.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="OpenTK.dll.config" />
     <None Include="packages.config" />
-    <None Include="shaders\shader.frag">
+    <None Include="Core\Shaders\shader.frag">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="shaders\shader.vert">
+    <None Include="Core\Shaders\shader.vert">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="scenes\scene1.txt">
+    <Content Include="Scenes\scene1.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="textures\b.bmp">
+    <Content Include="Textures\b.bmp">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="textures\base.bmp">
+    <Content Include="Textures\base.bmp">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="textures\bullet.bmp">
+    <Content Include="Textures\bullet.bmp">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="textures\none.bmp">
+    <Content Include="Textures\none.bmp">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="textures\a.bmp">
+    <Content Include="Textures\a.bmp">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="textures\platform.bmp">
+    <Content Include="Textures\platform.bmp">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="textures\triangle.bmp">
+    <Content Include="Textures\triangle.bmp">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

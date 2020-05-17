@@ -1,7 +1,7 @@
 ﻿using System;
 using OpenTK;
 
-namespace Cgame
+namespace Cgame.Core
 {
     /// <summary>
     /// Объект камеры для отрисовки игровых объектов.

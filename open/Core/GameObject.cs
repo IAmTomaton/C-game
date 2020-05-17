@@ -1,6 +1,6 @@
 ﻿using OpenTK;
 
-namespace Cgame
+namespace Cgame.Core
 {
     public abstract class GameObject
     {

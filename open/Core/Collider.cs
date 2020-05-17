@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Cgame
+namespace Cgame.Core
 {
     /// <summary>
     /// Содержит информации для просчёта столкновений объекта.

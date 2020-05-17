@@ -1,4 +1,4 @@
-﻿namespace Cgame
+﻿namespace Cgame.Core
 {
     /// <summary>
     /// Слои столкновений.

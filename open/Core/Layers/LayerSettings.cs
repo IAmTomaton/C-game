@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Cgame
+namespace Cgame.Core
 {
     /// <summary>
     /// Класс определяет правила столкновения объектов на основании их слоя.

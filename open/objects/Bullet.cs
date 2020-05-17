@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Cgame.Core;
 using Cgame.Interfaces;
 using OpenTK;
 using OpenTK.Input;

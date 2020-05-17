@@ -1,12 +1,12 @@
-﻿using OpenTK;
+﻿using Cgame.Core.Graphic;
+using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Input;
 using System;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 
-namespace Cgame
+namespace Cgame.Core
 {
     /// <summary>
     /// Главный класс.

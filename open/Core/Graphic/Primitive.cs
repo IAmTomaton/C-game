@@ -1,6 +1,6 @@
 ﻿using OpenTK.Graphics.OpenGL4;
 
-namespace Cgame
+namespace Cgame.Core.Graphic
 {
     /// <summary>
     /// Класс примитива на который будет натягиваться текстура для отрисовки.

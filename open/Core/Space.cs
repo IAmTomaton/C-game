@@ -1,9 +1,10 @@
-﻿using OpenTK;
+﻿using Cgame.Core.Physics;
+using OpenTK;
 using OpenTK.Input;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Cgame
+namespace Cgame.Core
 {
     /// <summary>
     /// Класс хранящий логическое представление игры и взаимодействующий с ним.

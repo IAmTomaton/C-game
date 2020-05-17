@@ -1,6 +1,6 @@
 ﻿using OpenTK.Input;
 
-namespace Cgame
+namespace Cgame.Core
 {
     /// <summary>
     /// Статический класс для управления пространством.

@@ -1,4 +1,5 @@
-﻿using Cgame.objects;
+﻿using Cgame.Core;
+using Cgame.objects;
 using OpenTK;
 using System;
 using System.Collections.Generic;

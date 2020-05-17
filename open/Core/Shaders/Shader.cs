@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-namespace Cgame
+namespace Cgame.Core
 {
     /// <summary>
     /// Загружает и позволяет использовать шейдеры.

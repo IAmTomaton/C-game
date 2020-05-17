@@ -1,4 +1,5 @@
-﻿using Cgame.Interfaces;
+﻿using Cgame.Core;
+using Cgame.Interfaces;
 using OpenTK;
 
 namespace Cgame.objects
