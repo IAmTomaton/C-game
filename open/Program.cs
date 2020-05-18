@@ -2,7 +2,6 @@
 using Cgame.Core.Graphic;
 using Cgame.Core.Shaders;
 using Ninject;
-using OpenTK;
 
 namespace Cgame
 {
