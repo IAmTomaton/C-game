@@ -87,6 +87,11 @@ namespace Cgame.Core
             WidthScale = 2 / (float)Width;
         }
 
+        public Camera(int width, int height) : this(Vector3.Zero, width, height) { }
+
+        public Camera(WindowSettings windowSettings) :
+            this(windowSettings.Width, windowSettings.Height) { }
+
         public Matrix4 GetViewMatrix()
         {
             return Matrix4.LookAt(Position, Position + front, up);

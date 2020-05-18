@@ -1,4 +1,5 @@
 ﻿using Cgame.Core;
+using Cgame.Core.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.IO;

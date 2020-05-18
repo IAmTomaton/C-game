@@ -1,4 +1,5 @@
-﻿using OpenTK;
+﻿using Cgame.Core.Interfaces;
+using OpenTK;
 using OpenTK.Input;
 using System.Collections.Generic;
 using System.Linq;

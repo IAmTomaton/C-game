@@ -1,5 +1,4 @@
-﻿using Cgame.Core.Shaders;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace Cgame.Core.Graphic
@@ -30,14 +29,12 @@ namespace Cgame.Core.Graphic
         /// </summary>
         /// <param name="shader">Шейдер</param>
         /// <returns>Готовая библиотека текстур.</returns>
-        public static TextureLibrary LoadTextureLibrary(Shader shader)
+        public static void LoadTextureLibrary(TextureLibrary textureLibrary)
         {
-            var textureLibrary = new TextureLibrary(shader);
             foreach (var texture in textureTuples)
             {
                 textureLibrary.AddTexture(texture.Item1, texture.Item2);
             }
-            return textureLibrary;
         }
 
         /// <summary>

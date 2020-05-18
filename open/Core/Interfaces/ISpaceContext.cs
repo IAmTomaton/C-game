@@ -1,7 +1,7 @@
 ﻿using OpenTK.Input;
 using System.Collections.Generic;
 
-namespace Cgame.Core
+namespace Cgame.Core.Interfaces
 {
     /// <summary>
     /// Коктекст пространства.

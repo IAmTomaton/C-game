@@ -10,19 +10,11 @@ namespace Cgame.Core.Graphic
     {
         private readonly Dictionary<string, Primitive> primitives = new Dictionary<string, Primitive>();
         private readonly Dictionary<string, Texture> textures = new Dictionary<string, Texture>();
-        private readonly Shader shader;
+        private Shader shader;
         /// <summary>
         /// Количество вершин в примитиве. Обычно 4.
         /// </summary>
         public int IndicesLength => indices.Length;
-
-        private readonly float[] vertices =
-        {
-             0.5f,  0.5f, 0.0f, 1.0f, 1.0f,
-             0.5f, -0.5f, 0.0f, 1.0f, 0.0f,
-            -0.5f, -0.5f, 0.0f, 0.0f, 0.0f,
-            -0.5f,  0.5f, 0.0f, 0.0f, 1.0f
-        };
 
         private readonly uint[] indices =
         {
@@ -30,9 +22,12 @@ namespace Cgame.Core.Graphic
             1, 2, 3
         };
 
-        public TextureLibrary(Shader shader)
+        public TextureLibrary() { }
+
+        public void Load(Shader shader)
         {
             this.shader = shader;
+            TextureLidraryLoader.LoadTextureLibrary(this);
         }
 
         /// <summary>

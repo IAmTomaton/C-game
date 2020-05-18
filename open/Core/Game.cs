@@ -17,7 +17,7 @@ namespace Cgame.Core
     {
         private Shader shader;
         private TextureLibrary textureLibrary;
-        private Space space;
+        private readonly Space space;
         private Camera admCamera;
         private bool adm;
 
@@ -28,9 +28,11 @@ namespace Cgame.Core
             { Key.T, false }
         };
 
-        public Game(int width, int height, string title)
-            : base(width, height, GraphicsMode.Default, title)
+        public Game(WindowSettings windowSettings, Space space, TextureLibrary textureLibrary)
+            : base(windowSettings.Width, windowSettings.Height, GraphicsMode.Default, windowSettings.Title)
         {
+            this.space = space;
+            this.textureLibrary = textureLibrary;
         }
 
         protected override void OnLoad(EventArgs e)
@@ -42,10 +44,12 @@ namespace Cgame.Core
             shader = new Shader("core/shaders/shader.vert", "core/shaders/shader.frag");
             shader.Use();
 
-            textureLibrary = TextureLidraryLoader.LoadTextureLibrary(shader);
+            textureLibrary.Load(shader);
+
+            space.Camera.Position = Vector3.UnitZ * 500;
+
             admCamera = new Camera(Vector3.UnitZ * 500, Width, Height);
-            var camera = new Camera(Vector3.UnitZ * 500, Width, Height);
-            space = new Space(camera);
+
             GameContext.Init(space);
 
             base.OnLoad(e);

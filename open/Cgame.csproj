@@ -73,6 +73,7 @@
   <ItemGroup>
     <Compile Include="ConsoleListener.cs" />
     <Compile Include="Core\GameContext.cs" />
+    <Compile Include="Core\WindowSettings.cs" />
     <Compile Include="GameObjectParameter.cs" />
     <Compile Include="Interfaces\IKilling.cs" />
     <Compile Include="Interfaces\IShootable.cs" />

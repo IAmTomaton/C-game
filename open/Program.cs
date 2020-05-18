@@ -1,17 +1,28 @@
 ﻿using Cgame.Core;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Cgame.Core.Graphic;
+using Cgame.Core.Shaders;
+using Ninject;
+using OpenTK;
 
 namespace Cgame
 {
     class Program
     {
+        static StandardKernel GetConteiner()
+        {
+            var conteiner = new StandardKernel();
+            conteiner.Bind<Game>().ToSelf();
+            conteiner.Bind<WindowSettings>().ToConstant(new WindowSettings(600, 600, "Igra ebat"));
+            conteiner.Bind<TextureLibrary>().ToSelf();
+            conteiner.Bind<Space>().ToSelf();
+            conteiner.Bind<Camera>().ToSelf();
+            return conteiner;
+        }
+
         static void Main(string[] args)
         {
-            using (var game = new Game(600, 600, "Igra ebat"))
+            var conteiner = GetConteiner();
+            using (var game = conteiner.Get<Game>())
             {
                 game.Run(60.0);
             }
