@@ -1,4 +1,5 @@
-﻿using OpenTK.Graphics.OpenGL4;
+﻿using Cgame.Core.Shaders;
+using OpenTK.Graphics.OpenGL4;
 
 namespace Cgame.Core.Graphic
 {

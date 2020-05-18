@@ -9,7 +9,7 @@ namespace Cgame.Core.Graphic
     /// Загружает и позволяет использовать текстуру.
     /// Сюда лучше не лезть если не работаешь с графикой.
     /// </summary>
-    class Texture
+    public class Texture
     {
         public int Handle { get; }
         public int Height { get; }

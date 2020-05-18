@@ -1,4 +1,5 @@
 ﻿using Cgame.Core.Graphic;
+using Cgame.Core.Shaders;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL4;
@@ -38,7 +39,7 @@ namespace Cgame.Core
             GL.Enable(EnableCap.DepthTest);
 
             //shader
-            shader = new Shader("shaders/shader.vert", "shaders/shader.frag");
+            shader = new Shader("core/shaders/shader.vert", "core/shaders/shader.frag");
             shader.Use();
 
             textureLibrary = TextureLidraryLoader.LoadTextureLibrary(shader);

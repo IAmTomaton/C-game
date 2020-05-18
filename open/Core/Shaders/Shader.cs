@@ -5,13 +5,13 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-namespace Cgame.Core
+namespace Cgame.Core.Shaders
 {
     /// <summary>
     /// Загружает и позволяет использовать шейдеры.
     /// Сюда лучше не лезть если не работаешь с графикой.
     /// </summary>
-    class Shader : IDisposable
+    public class Shader : IDisposable
     {
         public int Handle { get; }
         private readonly Dictionary<string, int> _uniformLocations;

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Cgame.Core.Shaders;
+using System.Collections.Generic;
 
 namespace Cgame.Core.Graphic
 {
