@@ -79,7 +79,7 @@
     <Compile Include="Objects\Bullet.cs" />
     <Compile Include="Core\Camera.cs" />
     <Compile Include="Core\Collider.cs" />
-    <Compile Include="Core\Physics\Collision.cs" />
+    <Compile Include="Core\Collision.cs" />
     <Compile Include="Core\Interfaces\ISpaceContext.cs" />
     <Compile Include="Core\Game.cs" />
     <Compile Include="Core\Layers\Layers.cs" />
@@ -149,6 +149,8 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Core\Physics\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

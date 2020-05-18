@@ -1,5 +1,4 @@
-﻿using Cgame.Core.Physics;
-using OpenTK;
+﻿using OpenTK;
 using OpenTK.Input;
 using System.Collections.Generic;
 using System.Linq;
@@ -112,7 +111,7 @@ namespace Cgame.Core
                         continue;
                     if (objects[i].Collider is null || objects[j].Collider is null)
                         continue;
-                    var collision = new Collision(objects[i].Collider, objects[j].Collider);
+                    var collision = Collider.Collide(objects[i].Collider, objects[j].Collider);
                     if (!collision.Collide)
                         continue;
                     if (!objects[i].Collider.IsTrigger && !objects[j].Collider.IsTrigger)

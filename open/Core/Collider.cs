@@ -1,4 +1,5 @@
 ﻿using OpenTK;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -113,6 +114,90 @@ namespace Cgame.Core
             this.gameObject = gameObject;
             this.position = position;
             Angle = angle;
+        }
+
+        public static Collision Collide(Collider firstCollider, Collider secondCollider)
+        {
+            if (firstCollider.Radius + secondCollider.Radius <= Vector2.Distance(firstCollider.Position, secondCollider.Position))
+                return Collision.FalseCollision;
+            if (firstCollider.Vertices.Count == 0 && secondCollider.Vertices.Count == 0)
+            {
+                return new Collision(
+                    (firstCollider.Position - secondCollider.Position).Normalized(),
+                    Math.Abs(
+                        firstCollider.Radius +
+                        secondCollider.Radius -
+                        Vector2.Distance(firstCollider.Position, secondCollider.Position)));
+            }
+            return CollisionPolygons(firstCollider, secondCollider);
+        }
+
+        private static Collision CollisionPolygons(Collider firstCollider, Collider secondCollider)
+        {
+            var mtv = default(Vector2);
+            var minMTVLength = 0f;
+            var first = true;
+
+            foreach (var normal in firstCollider.GetNornals().Concat(secondCollider.GetNornals()))
+            {
+                Vector2 firstProjection = GetProjection(normal, firstCollider);
+                Vector2 secondProjection = GetProjection(normal, secondCollider);
+
+                if (firstProjection.X < secondProjection.Y || secondProjection.X < firstProjection.Y)
+                    return Collision.FalseCollision;
+
+                if (first)
+                {
+                    first = false;
+                    mtv = normal.Normalized();
+                    minMTVLength = GetIntersectionLength(firstProjection, secondProjection);
+                    continue;
+                }
+
+                float mtvLength = GetIntersectionLength(firstProjection, secondProjection);
+                if (Math.Abs(mtvLength) < Math.Abs(minMTVLength))
+                {
+                    mtv = normal.Normalized();
+                    minMTVLength = mtvLength;
+                }
+            }
+
+            return new Collision(mtv, Math.Abs(minMTVLength));
+        }
+
+        private static Vector2 GetProjection(Vector2 vector, Collider collider)
+        {
+            var vertices = collider.Vertices;
+            Vector2 result = default;
+
+            if (vertices.Count == 0)
+            {
+                var projection = Vector2.Dot(vector, collider.Position);
+                return new Vector2(projection + collider.Radius, projection - collider.Radius);
+            }
+
+            for (var i = 0; i < vertices.Count; i++)
+            {
+                var projection = Vector2.Dot(vector, vertices[i]);
+
+                if (i == 0)
+                    result = new Vector2(projection, projection);
+
+                if (projection > result.X)
+                    result.X = projection;
+
+                if (projection < result.Y)
+                    result.Y = projection;
+            }
+
+            return result;
+        }
+
+        private static float GetIntersectionLength(Vector2 firstProjection, Vector2 secondProjection)
+        {
+            return secondProjection.Y - firstProjection.X > 0
+              ? secondProjection.Y - firstProjection.X
+              : firstProjection.Y - secondProjection.X;
         }
     }
 }
